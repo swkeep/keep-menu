@@ -9,7 +9,7 @@ This is a modified version of **[NH Context](https://forum.cfx.re/t/no-longer-su
 ```
     {
         header = "The Header, whatever you want to put", -- Required
-        context = "The base of the text in the button",
+        subheader = "The base of the text in the button",
         footer = "The bottom text on the button",
         disabled = "pass "true" if you want to disable this button from being pressed, and will change to a disabled color",
         submenu = "pass "true" if you want to have a arrow showing that this button will access another menu",
@@ -36,7 +36,6 @@ This is a modified version of **[NH Context](https://forum.cfx.re/t/no-longer-su
      local Menu = {
           {
                header = "Go Back",
-               event = "nh-context:testMenu",
                back = true,
           },
           {
@@ -66,7 +65,7 @@ This is a modified version of **[NH Context](https://forum.cfx.re/t/no-longer-su
           },
           {
                header = "Leave",
-               event = "nh-context:closeMenu",
+               event = "keep-menu:closeMenu",
                leave = true
           }
      }
