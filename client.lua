@@ -52,6 +52,17 @@ CreateMenu = function(data)
     SetNuiFocus(true, true)
 end
 
+ContextMenu = function(data)
+    if not data or Promise ~= nil then return end
+    while ActiveMenu do CloseMenu() Wait(0) end
+
+    Promise = promise.new()
+
+    CreateMenu(data)
+
+    return UnpackParams(Citizen.Await(Promise))
+end
+
 CloseMenu = function()
     SetNuiFocus(false, false)
     SendNUIMessage({
@@ -103,7 +114,7 @@ UnpackParams = function(arguments, i)
     end
 end
 
-exports("createMenu", CreateMenu)
+exports("createMenu", ContextMenu)
 exports("closeMenu", CancelMenu)
 
 RegisterNetEvent("nh-context:closeMenu", CancelMenu)
