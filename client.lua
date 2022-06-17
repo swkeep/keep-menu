@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Promise, ActiveMenu = nil, false
-local inventoryName = 'lj-inventory' -- @swkeep: make sure script using correct name
+local inventoryName = 'qb-inventory' -- @swkeep: make sure script using correct name
 
 RegisterNUICallback("dataPost", function(data, cb)
     local id = tonumber(data.id) + 1 or nil
