@@ -117,4 +117,4 @@ end
 exports("createMenu", ContextMenu)
 exports("closeMenu", CancelMenu)
 
-RegisterNetEvent("nh-context:closeMenu", CancelMenu)
+RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
