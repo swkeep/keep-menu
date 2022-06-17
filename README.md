@@ -3,7 +3,10 @@
 This is a modified version of **[NH Context](https://github.com/nerohiro/nh-context)** by **[NeroHiro](https://github.com/nerohiro) [LICENSE](https://github.com/nerohiro/nh-context/blob/main/LICENSE)**
 
 # Usage
-
+## make sure to set inventoryName vairable inside client.lua to correct value.
+```lua
+local inventoryName = 'qb-inventory' 
+```
 - Here is a base menu to show how it works.
 
 ```
