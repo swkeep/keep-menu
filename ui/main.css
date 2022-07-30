@@ -153,3 +153,76 @@ body::-webkit-scrollbar {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
+
+
+/* overlay */
+
+#container-overlay {
+    position: absolute;
+    height: auto;
+    bottom: -2%;
+    right: 33%;
+    border-radius: 5px;
+    background: transparent !important;
+}
+
+#infos {
+    max-height: 75vh;
+    width: 35vw;
+    overflow-x: none;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.info {
+    width: auto;
+    max-width: 55%;
+    height: 10%;
+    background: #333a44c2;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    padding: 0.45rem;
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    user-select: none;
+    align-items: center;
+    max-width: 50%;
+    height: 6rem;
+    pointer-events: none;
+}
+
+.column {
+    width: 100%;
+    margin-left: 1rem;
+}
+
+.row:nth-child(2) {
+    margin-top: 0.2rem;
+}
+
+.row:nth-child(3) {
+    margin-top: 0.2rem;
+}
+
+.row {
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: row;
+}
+
+.icon-o {
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: left;
+    padding-left: 0.2rem;
+    padding-right: 0.4rem;
+    font-size: 1rem;
+    min-width: 1.7rem;
+}

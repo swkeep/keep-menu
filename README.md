@@ -1,12 +1,16 @@
 ![menu](https://raw.githubusercontent.com/swkeep/keep-menu/master/.github/images/menu.jpg)
+![menu](https://raw.githubusercontent.com/swkeep/keep-menu/master/.github/images/overlay.jpg)
 
 This is a modified version of **[NH Context](https://github.com/nerohiro/nh-context)** by **[NeroHiro](https://github.com/nerohiro) [LICENSE](https://github.com/nerohiro/nh-context/blob/main/LICENSE)**
 
 # Usage
+
 ## make sure to set inventoryName vairable inside client.lua to correct value.
+
 ```lua
-local inventoryName = 'qb-inventory' 
+local inventoryName = 'qb-inventory'
 ```
+
 - Here is a base menu to show how it works.
 
 ```
@@ -74,4 +78,52 @@ local inventoryName = 'qb-inventory'
      }
 
      exports['keep-menu']:createMenu(Menu)
+```
+
+# Overlay
+
+![menu](https://raw.githubusercontent.com/swkeep/keep-menu/master/.github/images/overlay.jpg)
+
+- overlay values won't update when a menu is active
+- you can update overlay values on runtime
+- overlay won't close by it self or hotkeys you should call a event to close it.
+- overlay won't change the focus of screen
+
+# How to use overlay
+
+```lua
+local Overlay = {
+     header = 'Match Info',
+     icons = {
+          header = 'fa-solid fa-circle-info',
+          subheader = 'fa-solid fa-circle-question',
+          footer = 'fa-solid fa-circle-xmark'
+     },
+     subheader = string.format('Your Team Points: 0/%d'),
+     footer = string.format('Enemy Team Points: 0/%d'),
+}
+exports['keep-menu']:Overlay(Overlay)
+```
+
+- or update values on runtime
+
+```lua
+CreateThread(function()
+     for index = 1, 10, 1 do
+          local Overlay = {
+               header = 'Match Info',
+               icons = {
+                    header = 'fa-solid fa-circle-info',
+                    subheader = 'fa-solid fa-circle-question',
+                    footer = 'fa-solid fa-circle-xmark'
+               },
+               subheader = string.format('Your Team Points: 0/%d', index),
+               footer = string.format('Enemy Team Points: 0/%d', index + 5),
+          }
+          exports['keep-menu']:Overlay(Overlay)
+          Wait(1000)
+     end
+     -- don't forget to close the overlay
+     TriggerEvent('keep-menu:closeOverlay')
+end)
 ```

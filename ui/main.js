@@ -5,6 +5,45 @@ const OpenMenu = (data) => {
     DrawButtons(data)
 }
 
+const CreateOverlay = (data) => {
+        let ele = document.querySelector('.info')
+            // @swkeep: changed context to subheader as i always do :)
+        let context = data.subheader ? data.subheader : ""
+        let footer = data.footer ? data.footer : ""
+        let element = $(`
+        <div class="info">
+            <div class="column">
+                <div class="row">
+                    ${data.icons['header'] ? `<div class="icon-o"> <i class="${data.icons['header']}"></i> </div>` : ""} 
+                    <div class="header"> ` + data.header + `</div>
+                </div>
+                <div class="row">
+                    ${data.icons['subheader'] ? `<div class="icon-o"> <i class="${data.icons['subheader']}"></i> </div>` : ""} 
+                    <div class="context">` + context + `</div>
+                </div>
+
+                <div class="row">
+                    ${data.icons['footer'] ? `<div class="icon-o"> <i class="${data.icons['footer']}"></i> </div>` : ""} 
+                    <div class="footer"> ` + footer + `</div>
+                </div>
+            </div>
+        </div>
+        `
+    );
+
+    if (ele != null) {
+        $('div.info').replaceWith(element);
+        
+    } else {
+        $('#infos').append(element);        
+    }
+}
+
+const CloseOverlay = () => {
+    let element = $(``);
+    $('div.info').replaceWith(element);
+};
+
 const CloseMenu = () => {
     $(".button").remove();
     $(".buttonDisabled").remove();
@@ -65,6 +104,10 @@ window.addEventListener("message", (evt) => {
     switch (action) {
         case "OPEN_MENU":
             return OpenMenu(info);
+        case "OPEN_OVERLAY":
+            return CreateOverlay(info);
+        case 'CLOSE_OVERLAY':
+            return CloseOverlay()
         case "CLOSE_MENU":
             return CloseMenu();
         case "CANCEL_MENU":

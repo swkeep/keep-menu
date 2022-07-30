@@ -26,6 +26,8 @@ RegisterNUICallback("dataPost", function(data, cb)
             elseif rData.QBCommand then
                 TriggerServerEvent('QBCore:CallCommand', rData.event, UnpackParams(rData.args))
                 TriggerEvent(rData.event, UnpackParams(rData.args))
+            else
+                TriggerEvent(rData.event, UnpackParams(rData.args))
             end
         end
     end
@@ -61,6 +63,21 @@ ContextMenu = function(data)
     CreateMenu(data)
 
     return UnpackParams(Citizen.Await(Promise))
+end
+
+Overlay = function(data)
+    if not data or Promise ~= nil then return end
+    SendNUIMessage({
+        action = "OPEN_OVERLAY",
+        data = data
+    })
+end
+
+
+CloseOverlay = function()
+    SendNUIMessage({
+        action = "CLOSE_OVERLAY",
+    })
 end
 
 CloseMenu = function()
@@ -115,6 +132,8 @@ UnpackParams = function(arguments, i)
 end
 
 exports("createMenu", ContextMenu)
+exports("Overlay", Overlay)
 exports("closeMenu", CancelMenu)
 
 RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
+RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
