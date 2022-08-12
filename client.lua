@@ -133,10 +133,13 @@ UnpackParams = function(arguments, i)
 end
 
 exports("createMenu", ContextMenu)
+exports("closeMenu", CancelMenu)
 -- @swkeep: overlay
 exports("Overlay", Overlay)
-exports("closeMenu", CancelMenu)
+exports("CloseOverlay", CloseOverlay)
 
+RegisterNetEvent("keep-menu:createMenu", ContextMenu)
 RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
 -- @swkeep: overlay
+RegisterNetEvent("keep-menu:createMenu", Overlay)
 RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
