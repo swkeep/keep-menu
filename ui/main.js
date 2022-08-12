@@ -57,7 +57,7 @@ const DrawButtons = (data) => {
             let context = data[i].subheader ? data[i].subheader : ""
             let footer = data[i].footer ? data[i].footer : ""
             let element = $(`
-            <div class="${data[i].disabled ? "buttonDisabled" : "button"}" id=` + i + `>
+            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""}" id=` + i + `>
             <!-- @swkeep: added back/leave/icon -->
             ${data[i].back && !data[i].disabled  ? `<div class="icon"> <i class="fa-solid fa-angle-left"></i> </div>` : ""}
             ${data[i].leave && !data[i].disabled && !data[i].back  ? `<div class="icon"> <i class="fa-solid fa-circle-xmark"></i> </div>` : ""}

@@ -15,6 +15,7 @@ local inventoryName = 'qb-inventory'
 
 ```
     {
+        is_header = "pass "true" to disable clicking on this element @swkeep",
         header = "The Header, whatever you want to put", -- Required
         subheader = "The base of the text in the button",
         footer = "The bottom text on the button",

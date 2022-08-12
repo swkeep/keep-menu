@@ -65,15 +65,16 @@ ContextMenu = function(data)
     return UnpackParams(Citizen.Await(Promise))
 end
 
+-- @swkeep: overlay
 Overlay = function(data)
-    if not data or Promise ~= nil then return end
+    if not data then return end
     SendNUIMessage({
         action = "OPEN_OVERLAY",
         data = data
     })
 end
 
-
+-- @swkeep: overlay
 CloseOverlay = function()
     SendNUIMessage({
         action = "CLOSE_OVERLAY",
@@ -132,8 +133,10 @@ UnpackParams = function(arguments, i)
 end
 
 exports("createMenu", ContextMenu)
+-- @swkeep: overlay
 exports("Overlay", Overlay)
 exports("closeMenu", CancelMenu)
 
 RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
+-- @swkeep: overlay
 RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
