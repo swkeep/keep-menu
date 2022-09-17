@@ -14,6 +14,11 @@ RegisterNUICallback("dataPost", function(data, cb)
             Promise = nil
         end
 
+        if rData.leave then
+            CloseMenu()
+            return
+        end
+
         if rData.action then
             -- @swkeep: added action to trigger a function
             rData.action(rData.args)
