@@ -19,9 +19,14 @@ RegisterNUICallback("dataPost", function(data, cb)
             return
         end
 
+        local args = rData.args
+        if rData.unpack then
+            args = table.unpack(rData.args or {})
+        end
+
         if rData.action then
             -- @swkeep: added action to trigger a function
-            rData.action(rData.args)
+            rData.action(args)
         end
 
         -- this part should not triggered at all!
@@ -33,12 +38,13 @@ RegisterNUICallback("dataPost", function(data, cb)
 
         if rData.event and Promise == nil then
             -- @swkeep: added qbcore/fivem command
+
             if rData.server then
-                TriggerServerEvent(rData.event, UnpackParams(rData.args))
+                TriggerServerEvent(rData.event, args)
             elseif not rData.server then
-                TriggerEvent(rData.event, UnpackParams(rData.args))
+                TriggerEvent(rData.event, args)
             elseif rData.client then
-                TriggerEvent(rData.event, UnpackParams(rData.args))
+                TriggerEvent(rData.event, args)
             end
 
             if rData.command then
@@ -46,8 +52,8 @@ RegisterNUICallback("dataPost", function(data, cb)
             end
 
             if rData.QBCommand then
-                TriggerServerEvent('QBCore:CallCommand', rData.event, UnpackParams(rData.args))
-                TriggerEvent(rData.event, UnpackParams(rData.args))
+                TriggerServerEvent('QBCore:CallCommand', rData.event, args)
+                TriggerEvent(rData.event, args)
             end
         end
     end
@@ -82,7 +88,7 @@ ContextMenu = function(data)
     Promise = promise.new()
 
     CreateMenu(data)
-    return UnpackParams(Citizen.Await(Promise))
+    return table.unpack(Citizen.Await(Promise) or {})
 end
 
 -- @swkeep: overlay
@@ -134,22 +140,28 @@ ProcessParams = function(data)
     return data
 end
 
+local function length(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 PackParams = function(arguments)
     local args, pack = arguments, {}
 
     for i = 1, 15, 1 do
         pack[i] = args[i]
     end
-    return pack
-end
-
-UnpackParams = function(arguments, i)
-    if not arguments then return end
-    local index = i or 1
-
-    if index <= #arguments then
-        return arguments[index], UnpackParams(arguments, index + 1)
+    if not (#pack == length(args)) then
+        local index = #pack + 1
+        pack[index] = {}
+        for key, value in pairs(args) do
+            if not (type(key) == "number") then
+                pack[index][key] = value
+            end
+        end
     end
+    return pack
 end
 
 exports("createMenu", ContextMenu)

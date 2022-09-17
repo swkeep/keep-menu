@@ -26,6 +26,7 @@ local inventoryName = 'qb-inventory'
         QBCommand = "QBCore:CallCommand @swkeep",
         action = "trigger a function @swkeep",
         image = "add an image url here and itll show off to the left side when you hover over this button, example below",
+        unpack = true/false -- receive args as one table or unpacked args
         event = "the event you actually want to trigger, remember if you set it server = true this will pass to the server side",
         icon = "show a fontawesome icon @swkeep",
         back = "add back icon to btn @swkeep",
@@ -73,12 +74,47 @@ local inventoryName = 'qb-inventory'
           },
           {
                header = "Leave",
-               event = "keep-menu:closeMenu",
                leave = true
           }
      }
 
      exports['keep-menu']:createMenu(Menu)
+```
+
+```lua
+     local Menu = {
+          {
+               header = "Go Back",
+               back = true,
+          },
+          {
+               header = "Main Title",
+          },
+          {
+               header = "Sub Menu Button",
+               subheader = "This goes to a sub menu",
+               -- event = "keep-crafting:client:test",
+               image = "weapon_assaultrifle",
+               icon = 'fa-solid fa-diagram-successor',
+               args = {
+                         some = 'asd',
+                         wal = 'sad5454',
+                         1
+               },
+               action = function(args)
+                    print('boom', args)
+               end,
+               submenu = true,
+          },
+          {
+               header = "Leave",
+               leave = true
+          }
+     }
+
+     -- In args, `1` is returned because it has an integer index, and the rest of the data does not
+     -- An non-integer indexes such as "some" or "wal" they will be packed into a table and returned last.
+     local one, rest = exports['keep-menu']:createMenu(Menu)
 ```
 
 # Overlay
