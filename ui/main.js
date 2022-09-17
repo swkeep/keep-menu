@@ -82,9 +82,9 @@ $(document).click(function (event) {
     let $target = $(event.target);
     if ($target.closest('.button').length && $('.button').is(":visible")) {
         let id = event.target.id;
-        if (Button[id].disabled) return;
+        if (Button[id].disabled || false) return;
         // <!-- @swkeep: support for no args actions -->
-        if (Button[id].is_header) return;
+        if (Button[id].is_header || false) return;
         if (!Button[id].event && !Button[id].action && !Button[id].leave ) { 
             console.warn('WARNING: No event or action to perform!');
             return;
