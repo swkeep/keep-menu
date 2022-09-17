@@ -83,8 +83,14 @@ $(document).click(function (event) {
     if ($target.closest('.button').length && $('.button').is(":visible")) {
         let id = event.target.id;
         if (Button[id].disabled) return;
-        if (!Button[id].event && !Button[id].args) return;
+        // <!-- @swkeep: support for no args actions -->
+        if (Button[id].is_header) return;
+        if (!Button[id].event && !Button[id].action && !Button[id].leave ) { 
+            console.warn('WARNING: No event or action to perform!');
+            return;
+        } 
         PostData(id)
+        
         document.getElementById('imageHover').style.display = 'none';
     }
 })
