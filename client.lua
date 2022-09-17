@@ -13,20 +13,35 @@ RegisterNUICallback("dataPost", function(data, cb)
             Promise:resolve(rData.args)
             Promise = nil
         end
+
         if rData.action then
             -- @swkeep: added action to trigger a function
             rData.action(rData.args)
         end
+
+        -- this part should not triggered at all!
+        if not rData.event and rData.server then
+            assert(rData.event, 'The Server event was called but no event name was passed!')
+        elseif not rData.event and rData.client then
+            assert(rData.event, 'The Client event was called but no event name was passed!')
+        end
+
         if rData.event and Promise == nil then
             -- @swkeep: added qbcore/fivem command
             if rData.server then
                 TriggerServerEvent(rData.event, UnpackParams(rData.args))
-            elseif rData.command then
-                ExecuteCommand(rData.event)
-            elseif rData.QBCommand then
-                TriggerServerEvent('QBCore:CallCommand', rData.event, UnpackParams(rData.args))
+            elseif not rData.server then
                 TriggerEvent(rData.event, UnpackParams(rData.args))
-            else
+            elseif rData.client then
+                TriggerEvent(rData.event, UnpackParams(rData.args))
+            end
+
+            if rData.command then
+                ExecuteCommand(rData.event)
+            end
+
+            if rData.QBCommand then
+                TriggerServerEvent('QBCore:CallCommand', rData.event, UnpackParams(rData.args))
                 TriggerEvent(rData.event, UnpackParams(rData.args))
             end
         end
@@ -55,13 +70,13 @@ CreateMenu = function(data)
 end
 
 ContextMenu = function(data)
+    Wait(1) -- wait 1 frame or Promise wont be nil
     if not data or Promise ~= nil then return end
-    while ActiveMenu do CloseMenu() Wait(0) end
+    while ActiveMenu do CloseMenu() Wait(1) end
 
     Promise = promise.new()
 
     CreateMenu(data)
-
     return UnpackParams(Citizen.Await(Promise))
 end
 
