@@ -85,7 +85,8 @@ $(document).click(function (event) {
         if (Button[id].disabled || false) return;
         // <!-- @swkeep: support for no args actions -->
         if (Button[id].is_header || false) return;
-        if (!Button[id].event && !Button[id].action && !Button[id].leave ) { 
+
+        if (!Button[id].event && !Button[id].action && !Button[id].leave &&!Button[id].args ) { 
             console.warn('WARNING: No event or action to perform!');
             return;
         } 
