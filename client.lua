@@ -1,6 +1,12 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = nil
+if GetResourceState('qb-core') == 'started' then
+    QBCore = exports['qb-core']:GetCoreObject()
+end
+
 local Promise, ActiveMenu = nil, false
 local inventoryName = 'qb-inventory' -- @swkeep: make sure script using correct name
+local img = "nui://" .. inventoryName .. "/html/"
+
 
 RegisterNUICallback("dataPost", function(data, cb)
     local id = tonumber(data.id) + 1 or nil
@@ -62,7 +68,7 @@ RegisterNUICallback("dataPost", function(data, cb)
                 ExecuteCommand(rData.event)
             end
 
-            if rData.QBCommand then
+            if QBCore and rData.QBCommand then
                 if rData.unpack then
                     TriggerServerEvent('QBCore:CallCommand', rData.event, table.unpack(rData.args or {}))
                     TriggerEvent(rData.event, rData.args)
@@ -144,12 +150,15 @@ ProcessParams = function(data)
         end
         -- @swkeep: get images from user inventory
         if v.image then
-            local img = "nui://" .. inventoryName .. "/html/"
-            if QBCore.Shared.Items[tostring(v.image)] then
-                if not string.find(QBCore.Shared.Items[tostring(v.image)].image, "images/") then
-                    img = img .. "images/"
+            if QBCore then
+                if QBCore.Shared.Items[tostring(v.image)] then
+                    if not string.find(QBCore.Shared.Items[tostring(v.image)].image, "images/") then
+                        img = img .. "images/"
+                    end
+                    v.image = img .. QBCore.Shared.Items[tostring(v.image)].image
                 end
-                v.image = img .. QBCore.Shared.Items[tostring(v.image)].image
+            else
+                v.image = img .. v.image
             end
         end
     end
