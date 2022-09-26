@@ -15,22 +15,23 @@ local inventoryName = 'qb-inventory'
 
 ```
     {
-        is_header = "pass "true" to disable clicking on this element @swkeep",
+        is_header = "true/false to disable clicking on this element @swkeep",
         header = "The Header, whatever you want to put", -- Required
         subheader = "The base of the text in the button",
         footer = "The bottom text on the button",
-        disabled = "pass "true" if you want to disable this button from being pressed, and will change to a disabled color",
-        submenu = "pass "true" if you want to have a arrow showing that this button will access another menu",
-        server = "pass "true" if you want the button to trigger a server event",
+        disabled = "true/false if you want to disable this button from being pressed, and will change to a disabled color",
+        submenu = "true/false if you want to have an arrow showing that this button will access another menu",
+        server = "true/false if you want the button to trigger a server event",
         command = "ExecuteCommand @swkeep",
         QBCommand = "QBCore:CallCommand @swkeep",
         action = "trigger a function @swkeep",
         image = "add an image url here and itll show off to the left side when you hover over this button, example below",
-        unpack = true/false -- receive args as one table or unpacked args
+        unpack = true/false -- receive args as one pack to a table or unpacked args for function @swkeep
+        hide = true/false, -- @swkeep will skip element when true
         event = "the event you actually want to trigger, remember if you set it server = true this will pass to the server side",
         icon = "show a fontawesome icon @swkeep",
         back = "add back icon to btn @swkeep",
-        leave = "add leave icon to btn @swkeep",
+        leave = "add leave icon and close event to btn @swkeep",
         args = { -- These are the arguments you send with the event
             table,
             integer,

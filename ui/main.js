@@ -53,6 +53,10 @@ const CloseMenu = () => {
 
 const DrawButtons = (data) => {
     for (let i = 0; i < data.length; i++) {
+        if (data[i].hide) {
+            // hide element
+            continue
+        }
         // @swkeep: changed context to subheader as i always do :)
         let context = data[i].subheader ? data[i].subheader : ""
         let footer = data[i].footer ? data[i].footer : ""
