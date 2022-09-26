@@ -19,14 +19,13 @@ RegisterNUICallback("dataPost", function(data, cb)
             return
         end
 
-        local args = rData.args
-        if rData.unpack then
-            args = table.unpack(rData.args or {})
-        end
-
         if rData.action then
             -- @swkeep: added action to trigger a function
-            rData.action(args)
+            if rData.unpack then
+                rData.action(table.unpack(rData.args or {}))
+            else
+                rData.action(rData.args)
+            end
         end
 
         -- this part should not triggered at all!
@@ -38,13 +37,25 @@ RegisterNUICallback("dataPost", function(data, cb)
 
         if rData.event and Promise == nil then
             -- @swkeep: added qbcore/fivem command
-
             if rData.server then
-                TriggerServerEvent(rData.event, args)
+                if rData.unpack then
+                    TriggerServerEvent(rData.event, table.unpack(rData.args or {}))
+                else
+                    TriggerServerEvent(rData.event, rData.args)
+                end
             elseif not rData.server then
-                TriggerEvent(rData.event, args)
+                if rData.unpack then
+                    TriggerEvent(rData.event, table.unpack(rData.args or {}))
+                else
+                    TriggerEvent(rData.event, rData.args)
+                end
+
             elseif rData.client then
-                TriggerEvent(rData.event, args)
+                if rData.unpack then
+                    TriggerEvent(rData.event, table.unpack(rData.args or {}))
+                else
+                    TriggerEvent(rData.event, rData.args)
+                end
             end
 
             if rData.command then
@@ -52,8 +63,13 @@ RegisterNUICallback("dataPost", function(data, cb)
             end
 
             if rData.QBCommand then
-                TriggerServerEvent('QBCore:CallCommand', rData.event, args)
-                TriggerEvent(rData.event, args)
+                if rData.unpack then
+                    TriggerServerEvent('QBCore:CallCommand', rData.event, table.unpack(rData.args or {}))
+                    TriggerEvent(rData.event, rData.args)
+                else
+                    TriggerServerEvent('QBCore:CallCommand', rData.event, rData.args)
+                    TriggerEvent(rData.event, rData.args)
+                end
             end
         end
     end
