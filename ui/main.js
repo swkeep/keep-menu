@@ -125,7 +125,7 @@ window.addEventListener("message", (evt) => {
 })
 
 window.addEventListener("keyup", (ev) => {
-    if (ev.which == 27) {
+    if (ev.code === 'Escape') {
         CancelMenu();
         document.getElementById('imageHover').style.display = 'none';
     }
