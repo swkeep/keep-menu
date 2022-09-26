@@ -33,9 +33,9 @@ const CreateOverlay = (data) => {
 
     if (ele != null) {
         $('div.info').replaceWith(element);
-        
+
     } else {
-        $('#infos').append(element);        
+        $('#infos').append(element);
     }
 }
 
@@ -52,15 +52,15 @@ const CloseMenu = () => {
 };
 
 const DrawButtons = (data) => {
-        for (let i = 0; i < data.length; i++) {
-            // @swkeep: changed context to subheader as i always do :)
-            let context = data[i].subheader ? data[i].subheader : ""
-            let footer = data[i].footer ? data[i].footer : ""
-            let element = $(`
+    for (let i = 0; i < data.length; i++) {
+        // @swkeep: changed context to subheader as i always do :)
+        let context = data[i].subheader ? data[i].subheader : ""
+        let footer = data[i].footer ? data[i].footer : ""
+        let element = $(`
             <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""}" id=` + i + `>
             <!-- @swkeep: added back/leave/icon -->
-            ${data[i].back && !data[i].disabled  ? `<div class="icon"> <i class="fa-solid fa-angle-left"></i> </div>` : ""}
-            ${data[i].leave && !data[i].disabled && !data[i].back  ? `<div class="icon"> <i class="fa-solid fa-circle-xmark"></i> </div>` : ""}
+            ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left"></i> </div>` : ""}
+            ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark"></i> </div>` : ""}
             ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}"></i> </div>` : ""}
             <!-- @swkeep: added column to support icon -->
             <div className="column">
@@ -82,16 +82,16 @@ $(document).click(function (event) {
     let $target = $(event.target);
     if ($target.closest('.button').length && $('.button').is(":visible")) {
         let id = event.target.id;
-        if (Button[id].disabled || false) return;
+        if (Button[id].disabled !== undefined && Button[id].disabled || false) return;
         // <!-- @swkeep: support for no args actions -->
         if (Button[id].is_header || false) return;
 
-        if (!Button[id].event && !Button[id].action && !Button[id].leave &&!Button[id].args ) { 
+        if (!Button[id].event && !Button[id].action && !Button[id].leave && !Button[id].args) {
             console.warn('WARNING: No event or action to perform!');
             return;
-        } 
+        }
         PostData(id)
-        
+
         document.getElementById('imageHover').style.display = 'none';
     }
 })
