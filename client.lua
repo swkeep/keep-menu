@@ -5,8 +5,9 @@ end
 
 local Promise, ActiveMenu = nil, false
 local inventoryName = 'qb-inventory' -- @swkeep: make sure script using correct name
-local img = "nui://" .. inventoryName .. "/html/"
 
+-- if you're not using qbcore change this where your inventory's images are
+local img = "nui://" .. inventoryName .. "/html/images/"
 
 RegisterNUICallback("dataPost", function(data, cb)
     local id = tonumber(data.id) + 1 or nil
@@ -152,15 +153,18 @@ ProcessParams = function(data)
         end
         -- @swkeep: get images from user inventory
         if v.image then
-            if QBCore then
-                if QBCore.Shared.Items[tostring(v.image)] then
-                    if not string.find(QBCore.Shared.Items[tostring(v.image)].image, "images/") then
-                        img = img .. "images/"
-                    end
-                    v.image = img .. QBCore.Shared.Items[tostring(v.image)].image
-                end
+            local i, j = string.find(v.image, "http")
+            if i and j then
+                -- it a http or https
+                v.image = v.image -- do nothing :)
             else
-                v.image = img .. v.image
+                if QBCore then
+                    if QBCore.Shared.Items[tostring(v.image)] then
+                        v.image = img .. QBCore.Shared.Items[tostring(v.image)].image
+                    end
+                else
+                    v.image = img .. v.image
+                end
             end
         end
     end
@@ -202,3 +206,52 @@ RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
 -- @swkeep: overlay
 RegisterNetEvent("keep-menu:Overlay", Overlay)
 RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
+
+
+-- local function landing()
+--     local menu = {
+--         {
+--             header = 'Creator',
+--             subheader = 'test test as subheader',
+--             icon = 'fa-solid fa-industry',
+--             disabled = true,
+--             -- spacer = true
+--         },
+--         {
+--             pervious = true,
+--             disabled = true,
+--             action = function()
+--                 print('pervious')
+--             end
+--         },
+--         {
+--             next = true,
+--             action = function()
+--                 print('next')
+--             end
+--         },
+--         {
+--             header = 'Exit Creator',
+--             subheader = 'reset & close creator',
+--             icon = 'fa-solid fa-trash',
+--         },
+--         {
+--             header = 'Hover Url',
+--             icon = 'fa-solid fa-trash',
+--             image = 'https://avatars.githubusercontent.com/u/49286776?v=4'
+--         },
+--         {
+--             header = 'Hover Inventory',
+--             icon = 'fa-solid fa-trash',
+--             image = 'lockpick'
+--         }
+--     }
+--     exports['keep-menu']:createMenu(menu)
+-- end
+
+-- RegisterKeyMapping('+testmenu', 'test menu', 'keyboard', 'o')
+-- RegisterCommand('+testmenu', function()
+--     if not IsPauseMenuActive() then
+--         landing()
+--     end
+-- end, false)
