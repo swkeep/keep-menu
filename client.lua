@@ -13,8 +13,8 @@ RegisterNUICallback("dataPost", function(data, cb)
     local id = tonumber(data.id) + 1 or nil
     -- @swkeep: added PlaySoundFrontend to play menu sfx
     PlaySoundFrontend(-1, 'Highlight_Cancel', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
+    if not ActiveMenu then CloseMenu() return end
     local rData = ActiveMenu[id]
-
     if rData then
         if Promise ~= nil then
             Promise:resolve(rData.args)
@@ -207,7 +207,6 @@ RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
 RegisterNetEvent("keep-menu:Overlay", Overlay)
 RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
 
-
 -- local function landing()
 --     local menu = {
 --         {
@@ -255,3 +254,9 @@ RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
 --         landing()
 --     end
 -- end, false)
+
+-- CreateThread(function()
+
+--     Wait(500)
+--     landing()
+-- end)

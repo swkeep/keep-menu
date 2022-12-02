@@ -1,6 +1,6 @@
 let Buttons = [];
 let Button = [];
-let fade_animation = false
+let fade_animation = true
 
 const OpenMenu = (data) => {
     DrawButtons(data)
@@ -158,6 +158,11 @@ $(document).click(function (event) {
                 return;
             }
             PostData(id)
+            if (fade_animation) {
+                $("#container").fadeOut(150, 'swing');
+            } else {
+                $("#container").fadeIn(0, 'swing');
+            }
             document.getElementById('imageHover').style.display = 'none';
         }
     }
