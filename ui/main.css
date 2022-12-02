@@ -7,6 +7,7 @@
 }
 
 #container {
+    display: none;
     position: absolute;
     height: auto;
     top: 20%;
@@ -184,8 +185,10 @@ body::-webkit-scrollbar {
 
 #imageHover {
     position: absolute;
-    top: 10%;
-    right: 75%;
+    top: 5%;
+    right: 80%;
+    background: rgba(240, 248, 255, 0.473);
+    border-radius: 0.5rem;
 }
 
 #image {
@@ -193,6 +196,7 @@ body::-webkit-scrollbar {
     max-height: 40vh;
     max-width: 40vw;
     object-fit: scale-down;
+    border-radius: 0.5rem;
 }
 
 .icon {

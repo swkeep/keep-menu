@@ -1,5 +1,6 @@
 let Buttons = [];
 let Button = [];
+let fade_animation = false
 
 const OpenMenu = (data) => {
     DrawButtons(data)
@@ -45,12 +46,25 @@ const CloseOverlay = () => {
 };
 
 const CloseMenu = () => {
-    $(".button").remove();
-    $(".stepper-container").remove();
-    $(".stepper").remove();
-    $(".buttonDisabled").remove();
-    Buttons = [];
-    Button = [];
+    if (fade_animation) {
+        $("#container").fadeOut(150, 'swing');
+        setTimeout(() => {
+            $(".button").remove();
+            $(".stepper-container").remove();
+            $(".stepper").remove();
+            $(".buttonDisabled").remove();
+            Buttons = [];
+            Button = [];
+        }, 150);
+    } else {
+        $("#container").fadeOut(0, 'swing');
+        $(".button").remove();
+        $(".stepper-container").remove();
+        $(".stepper").remove();
+        $(".buttonDisabled").remove();
+        Buttons = [];
+        Button = [];
+    }
 };
 
 function btn_next(data, i) {
@@ -119,6 +133,11 @@ const DrawButtons = (data) => {
             </div>`
             );
             $('#buttons').append(element);
+            if (fade_animation) {
+                $("#container").fadeIn(250, 'swing');
+            } else {
+                $("#container").fadeIn(0, 'swing');
+            }
             Buttons[i] = element
             Button[i] = data[i]
         }
@@ -185,6 +204,7 @@ window.addEventListener('mousemove', (event) => {
         let id = event.target.id;
         if (!Button[id]) return
         if (Button[id].image) {
+            $("#imageHover").fadeIn(250, 'swing');
             document.getElementById('image').src = Button[id].image;
             document.getElementById('imageHover').style.display = 'block';
         }
