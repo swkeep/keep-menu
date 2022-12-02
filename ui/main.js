@@ -6,11 +6,11 @@ const OpenMenu = (data) => {
 }
 
 const CreateOverlay = (data) => {
-        let ele = document.querySelector('.info')
-            // @swkeep: changed context to subheader as i always do :)
-        let context = data.subheader ? data.subheader : ""
-        let footer = data.footer ? data.footer : ""
-        let element = $(`
+    let ele = document.querySelector('.info')
+    // @swkeep: changed context to subheader as i always do :)
+    let context = data.subheader ? data.subheader : ""
+    let footer = data.footer ? data.footer : ""
+    let element = $(`
         <div class="info">
             <div class="column">
                 <div class="row">
@@ -46,10 +46,45 @@ const CloseOverlay = () => {
 
 const CloseMenu = () => {
     $(".button").remove();
+    $(".stepper-container").remove();
+    $(".stepper").remove();
     $(".buttonDisabled").remove();
     Buttons = [];
     Button = [];
 };
+
+function btn_next(data, i) {
+    let element = $(`
+            <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=` + i + `>
+                <div class="icon"> <i class="fa-regular fa-circle-right"></i> </div>
+
+                <div className="column">
+                    <div class="header" id=` + i + `>Next</div>
+                </div>
+            </div>
+            `
+    );
+    $('.stepper-container').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
+
+function btn_pervious(data, i) {
+    let element = $(`
+            <div class ="stepper-container">
+                <div class="${data[i].disabled ? "stepperDisabled pervious-radius" : "stepper pervious-radius"}" id=` + i + `>
+                    <div class="icon"> <i class="fa-regular fa-circle-left"></i> </div>
+
+                    <div className="column">
+                        <div class="header" id=` + i + `>Pervious</div>
+                    </div>
+                </div>
+            </div>`
+    );
+    $('#buttons').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
 
 const DrawButtons = (data) => {
     for (let i = 0; i < data.length; i++) {
@@ -57,15 +92,22 @@ const DrawButtons = (data) => {
             // hide element
             continue
         }
-        // @swkeep: changed context to subheader as i always do :)
-        let context = data[i].subheader ? data[i].subheader : ""
-        let footer = data[i].footer ? data[i].footer : ""
-        let element = $(`
-            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""}" id=` + i + `>
+
+        if (data[i].next) {
+            btn_next(data, i)
+        } else if (data[i].pervious) {
+            btn_pervious(data, i)
+        } else {
+            // @swkeep: changed context to subheader as i always do :)
+            let context = data[i].subheader ? data[i].subheader : ""
+            let footer = data[i].footer ? data[i].footer : ""
+            let element = $(`
+            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=` + i + `>
             <!-- @swkeep: added back/leave/icon -->
             ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left"></i> </div>` : ""}
             ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark"></i> </div>` : ""}
             ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}"></i> </div>` : ""}
+
             <!-- @swkeep: added column to support icon -->
             <div className="column">
                 <div class="header" id=` + i + `>` + data[i].header + `</div>
@@ -75,16 +117,17 @@ const DrawButtons = (data) => {
                 ${data[i].submenu && !data[i].disabled ? `<svg class="submenuicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>` : ""}
                 </div>
             </div>`
-        );
-        $('#buttons').append(element);
-        Buttons[i] = element
-        Button[i] = data[i]
+            );
+            $('#buttons').append(element);
+            Buttons[i] = element
+            Button[i] = data[i]
+        }
     }
 };
 
 $(document).click(function (event) {
     let $target = $(event.target);
-    if ($target.closest('.button').length && $('.button').is(":visible")) {
+    if (($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
         let id = event.target.id;
         if (Button[id]) {
             if (Button[id].disabled || false) return;
