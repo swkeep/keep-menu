@@ -207,6 +207,63 @@ RegisterNetEvent("keep-menu:closeMenu", CancelMenu)
 RegisterNetEvent("keep-menu:Overlay", Overlay)
 RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
 
+
+local function qb(menu)
+    local converted = {}
+
+    for key, item in pairs(menu) do
+        local temp_btn = {}
+        if item.header then
+            temp_btn.header = item.header
+        end
+
+        if item.txt then
+            temp_btn.subheader = item.txt
+        end
+
+        if item.icon then
+            temp_btn.icon = item.icon
+        end
+
+        if item.disabled then
+            temp_btn.disabled = item.disabled
+        end
+
+        if item.hidden then
+            temp_btn.hide = item.hidden
+        end
+
+        if item.isMenuHeader then
+            temp_btn.is_header = item.isMenuHeader
+        end
+
+        if item.params then
+            if item.params.args then
+                temp_btn.args = item.params.args
+                temp_btn.unpack = true
+            end
+
+            if item.params.event then
+                temp_btn.event = item.params.event
+            end
+
+            if item.params.event and item.params.type then
+                temp_btn.type = item.params.type
+                temp_btn.event = item.params.event
+            end
+
+            if temp_btn.event == 'qb-menu:closeMenu' then
+                temp_btn.event = 'keep-menu:closeMenu'
+            end
+        end
+        converted[key] = temp_btn
+    end
+
+    ContextMenu(converted)
+end
+
+exports("openMenu", qb)
+
 -- local function landing()
 --     local menu = {
 --         {
