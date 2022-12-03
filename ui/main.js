@@ -1,3 +1,5 @@
+const search_fade_animation = 400
+const search_type_delay = 550
 let Buttons = [];
 let Button = [];
 let fade_animation = true
@@ -100,6 +102,71 @@ function btn_pervious(data, i) {
     Button[i] = data[i]
 }
 
+
+function bar_search(data, i) {
+    let element = $(`
+            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=` + i + `>
+                <div class="icon"> <i class="fa-solid fa-magnifying-glass"></i> </div>
+                <div className="column">
+                    <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
+                </div>
+            </div>
+            `
+    );
+    $('#buttons').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
+
+function _search(Button, i, type, searchText) {
+    const _string = Button[i][type].replace(/\s/g, '').toLowerCase()
+    searchText = searchText.replace(/\s/g, '').toLowerCase()
+    if (_string.indexOf(searchText) != -1) {
+        Buttons[i].fadeIn(search_fade_animation, 'swing')
+    } else {
+        Buttons[i].fadeOut(search_fade_animation, 'swing')
+    }
+}
+
+function delay(callback, ms) {
+    var timer = 0;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
+}
+
+$('#container').on('input', '#search', delay(function () {
+    let searchText = this.value;
+    if (searchText == "") {
+        for (let i = 1; i < Buttons.length; i++) {
+            // if buttons are not searchable don't use fade animation
+            if (Button[i].searchable != true) {
+                Buttons[i].show()
+            } else {
+                Buttons[i].fadeIn(search_fade_animation, 'swing')
+            }
+        }
+        return
+    }
+    for (let i = 1; i < Button.length; i++) {
+        if (Button[i].searchable != true) {
+            Buttons[i].show()
+        } else {
+            if (Button[i].header) {
+                _search(Button, i, 'header', searchText)
+            } else if (Button[i].subheader) {
+                _search(Button, i, 'subheader', searchText)
+            } else if (Button[i].footer) {
+                _search(Button, i, 'footer', searchText)
+            }
+        }
+    }
+}, search_type_delay));
+
 const DrawButtons = (data) => {
     for (let i = 0; i < data.length; i++) {
         if (data[i].hide) {
@@ -111,6 +178,8 @@ const DrawButtons = (data) => {
             btn_next(data, i)
         } else if (data[i].pervious) {
             btn_pervious(data, i)
+        } else if (data[i].search) {
+            bar_search(data, i)
         } else {
             // @swkeep: changed context to subheader as i always do :)
             let context = data[i].subheader ? data[i].subheader : ""

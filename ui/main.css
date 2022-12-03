@@ -103,6 +103,59 @@ body::-webkit-scrollbar {
     cursor: none;
 }
 
+input#search {
+    outline: 0;
+    border: 0;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    background-color: #292f36;
+}
+
+.searchbar {
+    width: auto;
+    max-width: 53%;
+    height: 10%;
+    top: 10%;
+    background: #292f36;
+    margin: auto;
+    overflow: hidden;
+    padding: 0.45rem;
+    border-radius: 0.3rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5rem;
+}
+
+input#searchDisabled {
+    outline: 0;
+    border: 0;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    background-color: rgba(102, 102, 102, 1);
+    cursor: none;
+}
+
+.searchbarDisabled {
+    width: auto;
+    max-width: 53%;
+    height: 10%;
+    top: 10%;
+    background: rgba(102, 102, 102, 1);
+    margin: auto;
+    overflow: hidden;
+    padding: 0.45rem;
+    border-radius: 0.3rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5rem;
+    cursor: none;
+}
+
+
 .pervious-radius {
     border-radius: 0.3rem 0.0rem 0.0rem 0.3rem;
 }

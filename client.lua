@@ -217,6 +217,10 @@ RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
 --             -- spacer = true
 --         },
 --         {
+--             search = true,
+--             disabled = false
+--         },
+--         {
 --             pervious = true,
 --             disabled = true,
 --             action = function()
@@ -243,8 +247,17 @@ RegisterNetEvent("keep-menu:closeOverlay", CloseOverlay)
 --             header = 'Hover Inventory',
 --             icon = 'fa-solid fa-trash',
 --             image = 'lockpick'
---         }
+--         },
 --     }
+
+--     for i = 1, 15, 1 do
+--         menu[#menu + 1] = {
+--             header = 'search for (' .. i .. ')',
+--             subheader = 'reset & close creator',
+--             icon = 'fa-solid fa-trash',
+--             searchable = true
+--         }
+--     end
 --     exports['keep-menu']:createMenu(menu)
 -- end
 
