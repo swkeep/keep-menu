@@ -71,11 +71,11 @@ const CloseMenu = () => {
 
 function btn_next(data, i) {
     let element = $(`
-            <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=` + i + `>
-                <div class="icon"> <i class="fa-regular fa-circle-right"></i> </div>
+            <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=${i}>
+                <div class="icon"> <i class="fa-regular fa-circle-right" id=${i}></i> </div>
 
                 <div className="column">
-                    <div class="header" id=` + i + `>Next</div>
+                    <div class="header" id=${i}>Next</div>
                 </div>
             </div>
             `
@@ -88,11 +88,11 @@ function btn_next(data, i) {
 function btn_pervious(data, i) {
     let element = $(`
             <div class ="stepper-container">
-                <div class="${data[i].disabled ? "stepperDisabled pervious-radius" : "stepper pervious-radius"}" id=` + i + `>
-                    <div class="icon"> <i class="fa-regular fa-circle-left"></i> </div>
+                <div class="${data[i].disabled ? "stepperDisabled pervious-radius" : "stepper pervious-radius"}" id=${i}>
+                    <div class="icon"> <i class="fa-regular fa-circle-left" id=${i}></i> </div>
 
                     <div className="column">
-                        <div class="header" id=` + i + `>Pervious</div>
+                        <div class="header" id=${i}>Pervious</div>
                     </div>
                 </div>
             </div>`
@@ -105,7 +105,7 @@ function btn_pervious(data, i) {
 
 function bar_search(data, i) {
     let element = $(`
-            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=` + i + `>
+            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=${i}>
                 <div class="icon"> <i class="fa-solid fa-magnifying-glass"></i> </div>
                 <div className="column">
                     <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
@@ -185,17 +185,17 @@ const DrawButtons = (data) => {
             let context = data[i].subheader ? data[i].subheader : ""
             let footer = data[i].footer ? data[i].footer : ""
             let element = $(`
-            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=` + i + `>
+            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i}>
             <!-- @swkeep: added back/leave/icon -->
-            ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left"></i> </div>` : ""}
-            ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark"></i> </div>` : ""}
+            ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
+            ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
             ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}"></i> </div>` : ""}
 
             <!-- @swkeep: added column to support icon -->
             <div className="column">
-                <div class="header" id=` + i + `>` + data[i].header + `</div>
-                <div class="context" id=` + i + `>` + context + `</div>
-                <div class="footer" id=` + i + `>` + footer + `</div>
+                <div class="header" id=${i}>${data[i].header}</div>
+                <div class="context" id=${i}>${context}</div>
+                <div class="footer" id=${i}>${footer}</div>
                 <!-- @swkeep: changed subMenu to submenu :) -->
                 ${data[i].submenu && !data[i].disabled ? `<svg class="submenuicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>` : ""}
                 </div>
