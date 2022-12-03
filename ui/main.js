@@ -2,7 +2,7 @@ const search_fade_animation = 400
 const search_type_delay = 550
 let Buttons = [];
 let Button = [];
-let fade_animation = true
+let fade_animation = false
 
 const OpenMenu = (data) => {
     DrawButtons(data)
