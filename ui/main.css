@@ -7,7 +7,6 @@
 }
 
 #container {
-    display: none;
     position: absolute;
     height: auto;
     top: 20%;
@@ -55,6 +54,35 @@ body::-webkit-scrollbar {
     user-select: none;
     align-items: center;
     cursor: pointer;
+}
+
+.pin-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: auto;
+    max-width: 53%;
+    height: 10%;
+    margin: auto;
+}
+
+.pin {
+    width: fit-content;
+    height: 5%;
+    background: #303b49;
+    position: relative;
+    top: 10%;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    padding: 0.3rem;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    user-select: none;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.3rem;
 }
 
 .stepper-container {

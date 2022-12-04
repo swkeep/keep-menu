@@ -2,7 +2,6 @@ const search_fade_animation = 400
 const search_type_delay = 550
 let Buttons = [];
 let Button = [];
-let fade_animation = false
 
 const OpenMenu = (data) => {
     DrawButtons(data)
@@ -48,25 +47,13 @@ const CloseOverlay = () => {
 };
 
 const CloseMenu = () => {
-    if (fade_animation) {
-        $("#container").fadeOut(150, 'swing');
-        setTimeout(() => {
-            $(".button").remove();
-            $(".stepper-container").remove();
-            $(".stepper").remove();
-            $(".buttonDisabled").remove();
-            Buttons = [];
-            Button = [];
-        }, 150);
-    } else {
-        $("#container").fadeOut(0, 'swing');
-        $(".button").remove();
-        $(".stepper-container").remove();
-        $(".stepper").remove();
-        $(".buttonDisabled").remove();
-        Buttons = [];
-        Button = [];
-    }
+    $(".button").remove();
+    $(".stepper-container").remove();
+    $(".stepper").remove();
+    $(".buttonDisabled").remove();
+    $(".pin-container").remove();
+    Buttons = [];
+    Button = [];
 };
 
 function btn_next(data, i) {
@@ -102,6 +89,28 @@ function btn_pervious(data, i) {
     Button[i] = data[i]
 }
 
+function contorl_bar() {
+    if (document.querySelector('pin-container') == null) {
+        let element = $(`<div class ="pin-container"></div>`);
+        $('#buttons').append(element);
+    }
+}
+
+function btn_pin(data, i) {
+    contorl_bar()
+    let element = $(`
+            <div class="pin" id=${i}>
+                <div class="icon"> <i class="${data[i].icon}" id=${i}></i> </div>
+
+                <div className="column">
+                    <div class="header" id=${i}>${data[i].header}</div>
+                </div>
+            </div>`
+    );
+    $('.pin-container').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
 
 function bar_search(data, i) {
     let element = $(`
@@ -180,6 +189,8 @@ const DrawButtons = (data) => {
             btn_pervious(data, i)
         } else if (data[i].search) {
             bar_search(data, i)
+        } else if (data[i].pin) {
+            btn_pin(data, i)
         } else {
             // @swkeep: changed context to subheader as i always do :)
             let context = data[i].subheader ? data[i].subheader : ""
@@ -202,11 +213,6 @@ const DrawButtons = (data) => {
             </div>`
             );
             $('#buttons').append(element);
-            if (fade_animation) {
-                $("#container").fadeIn(250, 'swing');
-            } else {
-                $("#container").fadeIn(0, 'swing');
-            }
             Buttons[i] = element
             Button[i] = data[i]
         }
@@ -215,7 +221,7 @@ const DrawButtons = (data) => {
 
 $(document).click(function (event) {
     let $target = $(event.target);
-    if (($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
+    if (($target.closest('.pin').length && $('.pin').is(":visible")) || ($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
         let id = event.target.id;
         if (Button[id]) {
             if (Button[id].disabled || false) return;
@@ -227,11 +233,6 @@ $(document).click(function (event) {
                 return;
             }
             PostData(id)
-            if (fade_animation) {
-                $("#container").fadeOut(150, 'swing');
-            } else {
-                $("#container").fadeIn(0, 'swing');
-            }
             document.getElementById('imageHover').style.display = 'none';
         }
     }
