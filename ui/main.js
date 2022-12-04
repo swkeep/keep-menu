@@ -106,7 +106,7 @@ function btn_pervious(data, i) {
 function bar_search(data, i) {
     let element = $(`
             <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=${i}>
-                <div class="icon"> <i class="fa-solid fa-magnifying-glass"></i> </div>
+                <div class="icon"> <i class="fa-solid fa-magnifying-glass" id=${i}></i> </div>
                 <div className="column">
                     <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
                 </div>
@@ -189,7 +189,7 @@ const DrawButtons = (data) => {
             <!-- @swkeep: added back/leave/icon -->
             ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
             ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
-            ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}"></i> </div>` : ""}
+            ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
 
             <!-- @swkeep: added column to support icon -->
             <div className="column">

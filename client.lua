@@ -104,9 +104,14 @@ CreateMenu = function(data)
 end
 
 ContextMenu = function(data)
-    Wait(1) -- wait 1 frame or Promise wont be nil
+    Wait(1)
     if not data or Promise ~= nil then return end
-    while ActiveMenu do CloseMenu() Wait(1) end
+    if ActiveMenu then
+        CloseMenu()
+        while ActiveMenu do
+            Wait(10)
+        end
+    end
 
     Promise = promise.new()
 
@@ -130,7 +135,11 @@ CloseOverlay = function()
     })
 end
 
-CloseMenu = function()
+CloseMenu = function(cb)
+    if Promise ~= nil then
+        Promise:resolve(nil)
+        Promise = nil
+    end
     SetNuiFocus(false, false)
     SendNUIMessage({
         action = "CLOSE_MENU",
