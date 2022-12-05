@@ -58,7 +58,7 @@ const CloseMenu = () => {
 
 function btn_next(data, i) {
     let element = $(`
-            <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=${i}>
+            <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon"> <i class="fa-regular fa-circle-right" id=${i}></i> </div>
 
                 <div className="column">
@@ -99,7 +99,7 @@ function contorl_bar() {
 function btn_pin(data, i) {
     contorl_bar()
     let element = $(`
-            <div class="pin" id=${i}>
+            <div class="pin" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon"> <i class="${data[i].icon}" id=${i}></i> </div>
 
                 <div className="column">
@@ -114,7 +114,7 @@ function btn_pin(data, i) {
 
 function bar_search(data, i) {
     let element = $(`
-            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=${i}>
+            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon"> <i class="fa-solid fa-magnifying-glass" id=${i}></i> </div>
                 <div className="column">
                     <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
@@ -196,7 +196,7 @@ const DrawButtons = (data) => {
             let context = data[i].subheader ? data[i].subheader : ""
             let footer = data[i].footer ? data[i].footer : ""
             let element = $(`
-            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i}>
+            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
             <!-- @swkeep: added back/leave/icon -->
             ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
             ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}

@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+    --main-btn-bg: #333a44;
+    --main-btn-bg-hover: #30475e;
+    --main-btn-disabled: rgba(102, 102, 102, 0.9);
+    --main-color-text: white;
+    --main-color-text-disabled: white;
+    --animation-delay: 0.2s;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -40,7 +49,7 @@ body::-webkit-scrollbar {
     width: auto;
     max-width: 53%;
     height: 10%;
-    background: #333a44;
+    background: var(--main-btn-bg);
     margin: auto;
     position: relative;
     top: 10%;
@@ -54,6 +63,7 @@ body::-webkit-scrollbar {
     user-select: none;
     align-items: center;
     cursor: pointer;
+    transition: background var(--animation-delay) ease;
 }
 
 .pin-container {
@@ -67,9 +77,9 @@ body::-webkit-scrollbar {
 }
 
 .pin {
-    width: fit-content;
+    width: 50%;
     height: 5%;
-    background: #303b49;
+    background: var(--main-btn-bg);
     position: relative;
     top: 10%;
     margin-top: 0.5rem;
@@ -82,7 +92,12 @@ body::-webkit-scrollbar {
     user-select: none;
     align-items: center;
     cursor: pointer;
-    border-radius: 0.3rem;
+    transition: background var(--animation-delay) ease;
+}
+
+.pin:hover {
+    background: var(--main-btn-bg-hover) !important;
+    transition: background var(--animation-delay) ease;
 }
 
 .stepper-container {
@@ -98,7 +113,7 @@ body::-webkit-scrollbar {
 .stepper {
     width: 50%;
     height: 5%;
-    background: #303b49;
+    background: var(--main-btn-bg);
     position: relative;
     top: 10%;
     margin-top: 0.5rem;
@@ -111,12 +126,13 @@ body::-webkit-scrollbar {
     user-select: none;
     align-items: center;
     cursor: pointer;
+    transition: background var(--animation-delay) ease;
 }
 
 .stepperDisabled {
     width: 50%;
     height: 5%;
-    background: rgba(102, 102, 102, 0.9);
+    background: var(--main-btn-disabled);
     position: relative;
     top: 10%;
     margin-top: 0.5rem;
@@ -161,7 +177,7 @@ input#searchDisabled {
     border: 0;
     text-align: left;
     color: rgb(255, 255, 255);
-    background-color: rgba(102, 102, 102, 1);
+    background-color: var(--main-btn-disabled);
     cursor: none;
 }
 
@@ -170,7 +186,7 @@ input#searchDisabled {
     max-width: 53%;
     height: 10%;
     top: 10%;
-    background: rgba(102, 102, 102, 1);
+    background: var(--main-btn-disabled);
     margin: auto;
     overflow: hidden;
     padding: 0.45rem;
@@ -193,14 +209,15 @@ input#searchDisabled {
 }
 
 .stepper:hover {
-    background-color: #30475e !important;
+    background: var(--main-btn-bg-hover) !important;
+    transition: background var(--animation-delay) ease;
 }
 
 .buttonDisabled {
     width: auto;
     max-width: 53%;
     height: 10%;
-    background: rgba(102, 102, 102, 0.9);
+    background: var(--main-btn-disabled);
     margin: auto;
     position: relative;
     top: 10%;
@@ -217,7 +234,8 @@ input#searchDisabled {
 }
 
 .button:hover {
-    background-color: #30475e !important;
+    background: var(--main-btn-bg-hover) !important;
+    transition: background var(--animation-delay) ease;
 }
 
 .context {
@@ -322,7 +340,7 @@ input#searchDisabled {
     width: auto;
     max-width: 55%;
     height: 10%;
-    background: #333a44c2;
+    background: var(--main-btn-bg)c2;
     margin: auto;
     position: relative;
     top: 10%;
