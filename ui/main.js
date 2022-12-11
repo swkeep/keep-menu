@@ -47,10 +47,16 @@ const CloseOverlay = () => {
 };
 
 const CloseMenu = () => {
+    // remove search bar
+    $(".searchbar").remove();
+    $(".searchbarDisabled").remove();
+    // remove buttons
     $(".button").remove();
+    $(".buttonDisabled").remove();
+    // remove stteper
     $(".stepper-container").remove();
     $(".stepper").remove();
-    $(".buttonDisabled").remove();
+    // remove pin
     $(".pin-container").remove();
     Buttons = [];
     Button = [];
@@ -59,7 +65,7 @@ const CloseMenu = () => {
 function btn_next(data, i) {
     let element = $(`
             <div class="${data[i].disabled ? "stepperDisabled next-radius" : "stepper next-radius"}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
-                <div class="icon"> <i class="fa-regular fa-circle-right" id=${i}></i> </div>
+                <div class="icon" id=${i}> <i class="fa-regular fa-circle-right" id=${i}></i> </div>
 
                 <div className="column">
                     <div class="header" id=${i}>Next</div>
@@ -76,7 +82,7 @@ function btn_pervious(data, i) {
     let element = $(`
             <div class ="stepper-container">
                 <div class="${data[i].disabled ? "stepperDisabled pervious-radius" : "stepper pervious-radius"}" id=${i}>
-                    <div class="icon"> <i class="fa-regular fa-circle-left" id=${i}></i> </div>
+                    <div class="icon" id=${i}> <i class="fa-regular fa-circle-left" id=${i}></i> </div>
 
                     <div className="column">
                         <div class="header" id=${i}>Pervious</div>
@@ -90,7 +96,7 @@ function btn_pervious(data, i) {
 }
 
 function contorl_bar() {
-    if (document.querySelector('pin-container') == null) {
+    if (!document.querySelectorAll('div.pin-container').length > 0) {
         let element = $(`<div class ="pin-container"></div>`);
         $('#buttons').append(element);
     }
@@ -100,10 +106,26 @@ function btn_pin(data, i) {
     contorl_bar()
     let element = $(`
             <div class="pin" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
-                <div class="icon"> <i class="${data[i].icon}" id=${i}></i> </div>
+                <div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>
 
                 <div className="column">
                     <div class="header" id=${i}>${data[i].header}</div>
+                </div>
+            </div>`
+    );
+    $('.pin-container').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
+
+function btn_leave(data, i) {
+    contorl_bar()
+    let element = $(`
+            <div class="leave" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
+                <div class="icon" id=${i}> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>
+
+                <div className="column">
+                    <div class="header" id=${i}>Leave</div>
                 </div>
             </div>`
     );
@@ -189,6 +211,8 @@ const DrawButtons = (data) => {
             btn_pervious(data, i)
         } else if (data[i].search) {
             bar_search(data, i)
+        } else if (data[i].leave) {
+            btn_leave(data, i)
         } else if (data[i].pin) {
             btn_pin(data, i)
         } else {
@@ -198,9 +222,9 @@ const DrawButtons = (data) => {
             let element = $(`
             <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
             <!-- @swkeep: added back/leave/icon -->
-            ${data[i].back && !data[i].disabled ? `<div class="icon"> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
+            ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
             ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
-            ${data[i].icon ? `<div class="icon"> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
+            ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
 
             <!-- @swkeep: added column to support icon -->
             <div className="column">
@@ -221,7 +245,7 @@ const DrawButtons = (data) => {
 
 $(document).click(function (event) {
     let $target = $(event.target);
-    if (($target.closest('.pin').length && $('.pin').is(":visible")) || ($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
+    if (($target.closest('.leave').length && $('.leave').is(":visible")) || ($target.closest('.pin').length && $('.pin').is(":visible")) || ($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
         let id = event.target.id;
         if (Button[id]) {
             if (Button[id].disabled || false) return;
