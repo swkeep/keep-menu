@@ -58,6 +58,9 @@ const CloseMenu = () => {
     $(".stepper").remove();
     // remove pin
     $(".pin-container").remove();
+    // remove hover
+    $("imageHover").remove();
+
     Buttons = [];
     Button = [];
 };
@@ -107,10 +110,7 @@ function btn_pin(data, i) {
     let element = $(`
             <div class="pin" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>
-
-                <div className="column">
-                    <div class="header" id=${i}>${data[i].header}</div>
-                </div>
+                <div class="header" id=${i}>${data[i].header}</div>
             </div>`
     );
     $('.pin-container').append(element);
@@ -123,10 +123,7 @@ function btn_leave(data, i) {
     let element = $(`
             <div class="leave" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon" id=${i}> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>
-
-                <div className="column">
-                    <div class="header" id=${i}>Leave</div>
-                </div>
+                <div class="header" id=${i}>Leave</div>
             </div>`
     );
     $('.pin-container').append(element);
@@ -136,11 +133,9 @@ function btn_leave(data, i) {
 
 function bar_search(data, i) {
     let element = $(`
-            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
+            <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon"> <i class="fa-solid fa-magnifying-glass" id=${i}></i> </div>
-                <div className="column">
-                    <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
-                </div>
+                <input type="text" id="${data[i].disabled ? "searchDisabled" : "search"}" ${data[i].disabled ? "disabled" : ""} placeholder="Search ...">
             </div>
             `
     );
@@ -227,7 +222,7 @@ const DrawButtons = (data) => {
             ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
 
             <!-- @swkeep: added column to support icon -->
-            <div className="column">
+            <div class="column">
                 <div class="header" id=${i}>${data[i].header}</div>
                 <div class="context" id=${i}>${context}</div>
                 <div class="footer" id=${i}>${footer}</div>
