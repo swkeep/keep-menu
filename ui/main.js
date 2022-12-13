@@ -78,11 +78,8 @@ const CloseMenu = () => {
     $(".stepper").remove();
     // remove pin
     $(".pin-container").remove();
-    // remove hover
-    $("imageHover").remove();
     // remove range_slider
     $(".sliderButton").remove();
-    document.getElementById('image').src = "#";
     Buttons = [];
     Button = [];
 };
@@ -227,6 +224,31 @@ function _search(Button, i, type, searchText) {
     }
 }
 
+function make_buttons(data, i) {
+    // @swkeep: changed context to subheader as i always do :)
+    let element = $(`
+                <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
+                <!-- @swkeep: added back/leave/icon -->
+                ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
+                ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
+                ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
+    
+                <!-- @swkeep: added column to support icon -->
+                    <div class="column">
+                        ${data[i].header ? `<div class="header" id=${i}>${data[i].header}</div>` : ""}
+                        ${data[i].subheader ? `<div class="context" id=${i}>${data[i].subheader}</div>` : ""}
+                        ${data[i].footer ? `<div class="footer" id=${i}>${data[i].footer}</div>` : ""}
+                        <!-- @swkeep: changed subMenu to submenu :) -->
+                        ${data[i].submenu && !data[i].disabled ? `<svg class="submenuicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>` : ""}
+                    </div>
+                ${data[i].image ? `<img class="imageHover" src="${data[i].image}"/>` : ""}
+                </div>
+                `
+    );
+    $('#buttons').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
 $('#container').on('input', '#search', delay(function () {
     let searchText = this.value;
     if (searchText == "") {
@@ -272,33 +294,10 @@ const DrawButtons = (data) => {
             btn_leave(data, i)
         } else if (data[i].pin) {
             btn_pin(data, i)
-        }
-        else if (data[i].range_slider) {
+        } else if (data[i].range_slider) {
             range_slider(data, i)
         } else {
-            // @swkeep: changed context to subheader as i always do :)
-            let context = data[i].subheader ? data[i].subheader : ""
-            let footer = data[i].footer ? data[i].footer : ""
-            let element = $(`
-            <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
-            <!-- @swkeep: added back/leave/icon -->
-            ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
-            ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
-            ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
-
-            <!-- @swkeep: added column to support icon -->
-            <div class="column">
-                <div class="header" id=${i}>${data[i].header}</div>
-                <div class="context" id=${i}>${context}</div>
-                <div class="footer" id=${i}>${footer}</div>
-                <!-- @swkeep: changed subMenu to submenu :) -->
-                ${data[i].submenu && !data[i].disabled ? `<svg class="submenuicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>` : ""}
-                </div>
-            </div>`
-            );
-            $('#buttons').append(element);
-            Buttons[i] = element
-            Button[i] = data[i]
+            make_buttons(data, i)
         }
     }
 };
@@ -328,7 +327,6 @@ $(document).click(function (event) {
             } else {
                 PostData(id)
             }
-            document.getElementById('imageHover').style.display = 'none';
         }
     }
 })
@@ -364,22 +362,5 @@ window.addEventListener("message", (evt) => {
 window.addEventListener("keyup", (ev) => {
     if (ev.code === 'Escape') {
         CancelMenu();
-        document.getElementById('imageHover').style.display = 'none';
-    }
-})
-
-window.addEventListener('mousemove', (event) => {
-    let $target = $(event.target);
-    if ($target.closest('.button:hover').length && $('.button').is(":visible")) {
-        let id = event.target.id;
-        if (!Button[id]) return
-        if (Button[id].image) {
-            $("#imageHover").fadeIn(250, 'swing');
-            document.getElementById('image').src = Button[id].image;
-            document.getElementById('imageHover').style.display = 'block';
-        }
-    }
-    else {
-        document.getElementById('imageHover').style.display = 'none';
     }
 })

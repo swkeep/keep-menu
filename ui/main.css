@@ -20,18 +20,17 @@
 #container {
     position: absolute;
     height: auto;
-    top: 20%;
-    right: 20%;
+    top: 15%;
+    right: 15%;
     border-radius: 5px;
     background: transparent !important;
 }
 
 #buttons {
-    max-height: 75vh;
+    max-height: 80vh;
     width: 35vw;
-    overflow-x: none;
-    overflow-y: auto;
     padding: 10px;
+    overflow-y: auto;
 }
 
 html,
@@ -52,11 +51,9 @@ body::-webkit-scrollbar {
     max-width: 53%;
     height: 10%;
     background: var(--main-btn-bg);
-    margin: auto;
     position: relative;
     top: 10%;
     margin: 0.5rem auto 0rem auto;
-    overflow: hidden;
     padding: 0.45rem;
     border-radius: 0.3rem;
     display: flex;
@@ -70,6 +67,28 @@ body::-webkit-scrollbar {
 
 .button .header img {
     width: 100%;
+}
+
+.button .imageHover {
+    position: fixed;
+    top: 22vh;
+    right: 87vh;
+    transition: opacity ease-in-out 250ms;
+    max-width: 45vh;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(240, 248, 255, 0.1);
+    border-radius: 0.3rem;
+}
+
+.button:hover {
+    background: var(--main-btn-bg-hover) !important;
+    transition: background var(--animation-delay) ease;
+}
+
+.button:hover .imageHover {
+    opacity: 1;
+    transition: opacity ease-in-out 250ms;
 }
 
 .pin-container {
@@ -260,11 +279,6 @@ input#searchDisabled {
     cursor: none,
 }
 
-.button:hover {
-    background: var(--main-btn-bg-hover) !important;
-    transition: background var(--animation-delay) ease;
-}
-
 .context {
     color: rgb(232, 229, 229);
     flex-direction: column;
@@ -307,14 +321,6 @@ input#searchDisabled {
     transform: translateY(-50%);
     fill: #707070;
     opacity: 60%;
-}
-
-#imageHover {
-    position: absolute;
-    top: 5%;
-    right: 80%;
-    background: rgba(240, 248, 255, 0.473);
-    border-radius: 0.5rem;
 }
 
 #image {
