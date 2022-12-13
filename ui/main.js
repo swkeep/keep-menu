@@ -279,9 +279,11 @@ function make_buttons(data, i) {
 }
 $('#container').on('input', '#search', delay(function () {
     let searchText = this.value;
+    let found = false
     if (searchText == "") {
         for (let i = 1; i < Buttons.length; i++) {
             // if buttons are not searchable don't use fade animation
+            if (Button[i] == undefined) continue
             if (Button[i].searchable != true) {
                 Buttons[i].show()
             } else {
@@ -290,9 +292,8 @@ $('#container').on('input', '#search', delay(function () {
         }
         return
     }
-
-    let found = false
-    for (let i = 1; i < Button.length; i++) {
+    for (let i = 0; i < Button.length; i++) {
+        if (Button[i] == undefined) continue
         if (Button[i].searchable != true) {
             Buttons[i].show()
         } else {
