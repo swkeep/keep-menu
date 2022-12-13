@@ -422,3 +422,115 @@ input#searchDisabled {
 .is-spacer {
     margin-bottom: 1rem !important;
 }
+
+input[type="range"] {
+    margin-top: 0.5rem;
+    font-size: 1.0rem;
+    width: 100%;
+}
+
+input[type="range"] {
+    --thumb-height: 1.125em;
+    --track-height: 0.125em;
+    --brightness-hover: 180%;
+    --brightness-down: 80%;
+    --clip-edges: 0.125em;
+}
+
+input[type="range"] {
+    color: #ffa600;
+    --track-color: rgba(255, 255, 255, 0.2);
+}
+
+input[type="range"] {
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+}
+
+input[type="range"]:disabled {
+    filter: grayscale(1);
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+input[type="range"],
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    transition: all ease 350ms;
+    height: var(--thumb-height);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
+    --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
+    --clip-bottom: calc(var(--thumb-height) - var(--clip-top));
+    --clip-further: calc(100% + 1px);
+    --box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0 100vmax currentColor;
+
+    width: var(--thumb-width, var(--thumb-height));
+    background-color: currentColor;
+    box-shadow: var(--box-fill);
+    border-radius: var(--thumb-width, var(--thumb-height));
+
+    clip-path: polygon(100% -1px,
+            var(--clip-edges) -1px,
+            0 var(--clip-top),
+            -100vmax var(--clip-top),
+            -100vmax var(--clip-bottom),
+            0 var(--clip-bottom),
+            var(--clip-edges) 100%,
+            var(--clip-further) var(--clip-further));
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+    filter: brightness(var(--brightness-hover));
+    cursor: grab;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+    filter: brightness(var(--brightness-down));
+    cursor: grabbing;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center / 100% calc(var(--track-height) + 1px);
+}
+
+.sliderButton {
+    width: auto;
+    max-width: 53%;
+    height: 10%;
+    background: var(--main-btn-bg);
+    margin: auto;
+    overflow: hidden;
+    padding: 0.45rem;
+    border-radius: 0.3rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem auto 0rem auto;
+}
+
+.sliderButton .slider_column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+}
+
+.sliderButton output {
+    color: white;
+    font-size: 0.8rem;
+    background: #bbbbbb1c;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    align-self: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 0.3rem;
+}

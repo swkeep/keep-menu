@@ -1,7 +1,27 @@
 const search_fade_animation = 400
 const search_type_delay = 550
+const ms = 50;
+
 let Buttons = [];
 let Button = [];
+
+function delay(callback, ms) {
+    var timer = 0;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
+}
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+});
 
 const OpenMenu = (data) => {
     DrawButtons(data)
@@ -60,7 +80,9 @@ const CloseMenu = () => {
     $(".pin-container").remove();
     // remove hover
     $("imageHover").remove();
-
+    // remove range_slider
+    $(".sliderButton").remove();
+    document.getElementById('image').src = "#";
     Buttons = [];
     Button = [];
 };
@@ -131,6 +153,57 @@ function btn_leave(data, i) {
     Button[i] = data[i]
 }
 
+function range_slider(data, i) {
+    let element = $(`
+            <div class="sliderButton" ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
+                ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
+
+                <div class="slider_column">
+                <div class="header" id=${i}>${data[i].header}</div>
+                <div class="context" id=${i}>${data[i].subheader}</div>
+                
+                <input type="range"
+                    name="${data[i].name}",
+                    class="range_slider", 
+                    min="${data[i].range.min ? data[i].range.min : 0}" 
+                    max="${data[i].range.max ? data[i].range.max : 0}" 
+                    step="${data[i].range.step ? data[i].range.step : 0}" 
+                    value="${data[i].range.value ? data[i].range.value : data[i].range.min}" 
+                    oninput="Slider_Output(this, this.nextElementSibling, ${data[i].range.multiplier}, ${data[i].range.currency})"
+                    style="${data[i].style}"
+                    ${data[i].disabled ? "disabled" : ""}
+                />
+                <output></output>
+                </div>
+            </div>
+            `
+    );
+    $('#buttons').append(element);
+    Buttons[i] = element
+    Button[i] = data[i]
+}
+
+function Slider_Output(range, output, multiplier, currency) {
+    $(range).data('updated', new Date().getTime());
+    setTimeout(() => {
+        if (new Date().getTime() - ms >= $(range).data('updated')) {
+            if (currency) {
+                if (multiplier) {
+                    output.innerHTML = formatter.format(range.value * multiplier);
+                } else {
+                    output.innerHTML = formatter.format(range.value);
+                }
+            } else {
+                if (multiplier) {
+                    output.innerHTML = range.value * multiplier;
+                } else {
+                    output.innerHTML = range.value;
+                }
+            }
+        }
+    }, ms);
+}
+
 function bar_search(data, i) {
     let element = $(`
             <div class="${data[i].disabled ? "searchbarDisabled" : "searchbar"} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
@@ -152,17 +225,6 @@ function _search(Button, i, type, searchText) {
     } else {
         Buttons[i].fadeOut(search_fade_animation, 'swing')
     }
-}
-
-function delay(callback, ms) {
-    var timer = 0;
-    return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            callback.apply(context, args);
-        }, ms || 0);
-    };
 }
 
 $('#container').on('input', '#search', delay(function () {
@@ -210,6 +272,9 @@ const DrawButtons = (data) => {
             btn_leave(data, i)
         } else if (data[i].pin) {
             btn_pin(data, i)
+        }
+        else if (data[i].range_slider) {
+            range_slider(data, i)
         } else {
             // @swkeep: changed context to subheader as i always do :)
             let context = data[i].subheader ? data[i].subheader : ""
@@ -243,6 +308,13 @@ $(document).click(function (event) {
     if (($target.closest('.leave').length && $('.leave').is(":visible")) || ($target.closest('.pin').length && $('.pin').is(":visible")) || ($target.closest('.stepper').length && $('.stepper').is(":visible")) || ($target.closest('.button').length && $('.button').is(":visible"))) {
         let id = event.target.id;
         if (Button[id]) {
+            let slider = document.getElementsByClassName('range_slider')
+            let res = {}
+            for (const iterator of slider) {
+                if (iterator.name && iterator.value) {
+                    res[iterator.name] = parseInt(iterator.value)
+                }
+            }
             if (Button[id].disabled || false) return;
             // <!-- @swkeep: support for no args actions -->
             if (Button[id].is_header || false) return;
@@ -251,14 +323,18 @@ $(document).click(function (event) {
                 console.warn('WARNING: No event, action or args to perform!');
                 return;
             }
-            PostData(id)
+            if (res) {
+                PostData(id, res)
+            } else {
+                PostData(id)
+            }
             document.getElementById('imageHover').style.display = 'none';
         }
     }
 })
 
-const PostData = (id) => {
-    $.post(`https://${GetParentResourceName()}/dataPost`, JSON.stringify({ id: id }))
+const PostData = (id, other_inputs) => {
+    $.post(`https://${GetParentResourceName()}/dataPost`, JSON.stringify({ id: id, other_inputs: other_inputs }))
 }
 
 const CancelMenu = () => {
