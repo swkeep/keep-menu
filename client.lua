@@ -1,5 +1,5 @@
 local QBCore = nil
-local DevMode = false
+local DevMode = true
 if GetResourceState('qb-core') == 'started' then
     QBCore = exports['qb-core']:GetCoreObject()
 end
@@ -315,7 +315,7 @@ if DevMode then
             },
             {
                 header = 'Hover Url',
-                icon = 'fa-solid fa-trash',
+                icon = 'fa-solid fa-person-through-window',
                 image = 'https://avatars.githubusercontent.com/u/49286776?v=4'
             },
             {
@@ -355,15 +355,26 @@ if DevMode then
                     currency = true
                 }
             },
+
+            {
+                header = 'Icon Test',
+                icon = 'fa-solid fa-users-between-lines',
+            },
+            {
+                header = 'Icon Test',
+                icon = 'fa-solid fa-tag',
+            },
         }
 
-        for i = 1, 100, 1 do
+        for i = 1, 10, 1 do
             menu[#menu + 1] = {
-                header = 'search for (' .. i .. ')',
+                header = 'search for (' .. math.random(0, 1000) .. ')',
                 subheader = 'reset & close creator',
                 footer = i * i,
                 icon = 'fa-solid fa-trash',
-                searchable = true
+                searchable = true,
+                style = ('background:rgb(%s,%s,%s)'):format(math.random(50, 150), math.random(50, 150),
+                    math.random(50, 150))
             }
         end
         exports['keep-menu']:createMenu(menu)

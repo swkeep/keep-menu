@@ -7,6 +7,9 @@
     --main-color-text: white;
     --main-color-text-disabled: white;
     --animation-delay: 0.3s;
+    --max-width-btn: 50%;
+    --min-width-btn: 16.5rem;
+    --btn-padding: 0.45rem 0.3rem;
 
     --icon-size: 1.2rem;
 }
@@ -48,13 +51,14 @@ body::-webkit-scrollbar {
 
 .button {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     background: var(--main-btn-bg);
     position: relative;
     top: 10%;
     margin: 0.5rem auto 0rem auto;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     display: flex;
     flex-direction: row;
@@ -72,7 +76,7 @@ body::-webkit-scrollbar {
 .button .imageHover {
     position: fixed;
     top: 22vh;
-    right: 87vh;
+    right: 80vh;
     transition: opacity ease-in-out 250ms;
     max-width: 45vh;
     opacity: 0;
@@ -93,7 +97,8 @@ body::-webkit-scrollbar {
 
 .pin-container {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     margin: auto;
     margin-top: 0.5rem;
@@ -152,7 +157,8 @@ body::-webkit-scrollbar {
     flex-direction: row;
     justify-content: space-between;
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     margin: auto;
 }
@@ -165,7 +171,7 @@ body::-webkit-scrollbar {
     top: 10%;
     margin: 0rem auto 0rem auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     display: flex;
     justify-content: start;
     flex-direction: row;
@@ -189,7 +195,7 @@ body::-webkit-scrollbar {
     top: 10%;
     margin: 0rem auto 0rem auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     display: flex;
     justify-content: start;
     flex-direction: row;
@@ -210,13 +216,14 @@ input#search {
 
 .searchbar {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     top: 10%;
     background: #292f36;
     margin: auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
     user-select: none;
@@ -236,13 +243,14 @@ input#searchDisabled {
 
 .searchbarDisabled {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     top: 10%;
     background: var(--main-btn-disabled);
     margin: auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
     user-select: none;
@@ -263,13 +271,14 @@ input#searchDisabled {
 
 .buttonDisabled {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     background: var(--main-btn-disabled);
     top: 10%;
     margin: 0.5rem auto 0rem auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     display: flex;
     flex-direction: row;
@@ -335,10 +344,7 @@ input#searchDisabled {
     color: white;
     display: flex;
     align-items: center;
-    position: relative;
-    justify-content: left;
-    padding-left: 0.3rem;
-    padding-right: 0.6rem;
+    justify-content: center;
     font-size: var(--icon-size);
     min-width: 2.15rem;
 }
@@ -378,7 +384,7 @@ input#searchDisabled {
     position: relative;
     top: 10%;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     display: flex;
     flex-direction: row;
@@ -392,7 +398,7 @@ input#searchDisabled {
 
 .column {
     width: 100%;
-    margin-left: 0.2rem;
+    margin-left: 0.3rem;
 }
 
 .row:nth-child(2) {
@@ -414,7 +420,7 @@ input#searchDisabled {
     display: flex;
     align-items: center;
     position: relative;
-    justify-content: left;
+    justify-content: center;
     padding-left: 0.2rem;
     padding-right: 0.4rem;
     font-size: 1rem;
@@ -505,18 +511,24 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 .sliderButton {
     width: auto;
-    max-width: 53%;
+    min-width: var(--min-width-btn);
+    max-width: var(--max-width-btn);
     height: 10%;
     background: var(--main-btn-bg);
     margin: auto;
     overflow: hidden;
-    padding: 0.45rem;
+    padding: var(--btn-padding);
     border-radius: 0.3rem;
     box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
     user-select: none;
     display: flex;
     flex-direction: row;
     margin: 0.5rem auto 0rem auto;
+}
+
+.sliderButton:hover {
+    background: var(--main-btn-bg-hover) !important;
+    transition: background var(--animation-delay) ease;
 }
 
 .sliderButton .slider_column {
