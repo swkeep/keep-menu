@@ -1,6 +1,7 @@
 const search_fade_animation = 400
 const search_type_delay = 550
 const ms = 50;
+const SFX_ACTIVE = false
 
 let Buttons = [];
 let Button = [];
@@ -14,6 +15,25 @@ function delay(callback, ms) {
             callback.apply(context, args);
         }, ms || 0);
     };
+}
+
+function MouseEnter(disabled, element) {
+    if (SFX_ACTIVE == false) return;
+    element.mouseenter(function () {
+        if (!disabled) {
+            SFX()
+        }
+    });
+}
+
+function SearchDoneSfx() {
+    if (SFX_ACTIVE == false) return;
+    SFX_Search_Done()
+}
+
+function SearchFailedSfx() {
+    if (SFX_ACTIVE == false) return;
+    SFX_Search_Failed()
 }
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -95,6 +115,7 @@ function btn_next(data, i) {
             </div>
             `
     );
+    MouseEnter(data[i].disabled, element)
     $('.stepper-container').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -112,6 +133,7 @@ function btn_pervious(data, i) {
                 </div>
             </div>`
     );
+    MouseEnter(data[i].disabled, element)
     $('#buttons').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -132,6 +154,7 @@ function btn_pin(data, i) {
                 <div class="header" id=${i}>${data[i].header}</div>
             </div>`
     );
+    MouseEnter(data[i].disabled, element)
     $('.pin-container').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -145,6 +168,7 @@ function btn_leave(data, i) {
                 <div class="header" id=${i}>Leave</div>
             </div>`
     );
+    MouseEnter(data[i].disabled, element)
     $('.pin-container').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -175,6 +199,7 @@ function range_slider(data, i) {
             </div>
             `
     );
+    MouseEnter(data[i].disabled, element)
     $('#buttons').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -215,13 +240,15 @@ function bar_search(data, i) {
 }
 
 function _search(Button, i, type, searchText) {
-    const _string = Button[i][type].replace(/\s/g, '').toLowerCase()
+    let _string = Button[i][type].toString()
+    _string = _string.replace(/\s/g, '').toLowerCase()
     searchText = searchText.replace(/\s/g, '').toLowerCase()
     if (_string.indexOf(searchText) != -1) {
         Buttons[i].fadeIn(search_fade_animation, 'swing')
     } else {
         Buttons[i].fadeOut(search_fade_animation, 'swing')
     }
+    return (_string.indexOf(searchText) != -1)
 }
 
 function make_buttons(data, i) {
@@ -245,6 +272,7 @@ function make_buttons(data, i) {
                 </div>
                 `
     );
+    MouseEnter(data[i].disabled, element)
     $('#buttons').append(element);
     Buttons[i] = element
     Button[i] = data[i]
@@ -262,18 +290,32 @@ $('#container').on('input', '#search', delay(function () {
         }
         return
     }
+
+    let found = false
     for (let i = 1; i < Button.length; i++) {
         if (Button[i].searchable != true) {
             Buttons[i].show()
         } else {
+            let h, s, f = false
+
             if (Button[i].header) {
-                _search(Button, i, 'header', searchText)
-            } else if (Button[i].subheader) {
-                _search(Button, i, 'subheader', searchText)
-            } else if (Button[i].footer) {
-                _search(Button, i, 'footer', searchText)
+                h = _search(Button, i, 'header', searchText)
+            }
+            if (Button[i].subheader && h == false) {
+                s = _search(Button, i, 'subheader', searchText)
+            }
+            if (Button[i].footer && s == false) {
+                f = _search(Button, i, 'footer', searchText)
+            }
+            if (!found) {
+                found = h ^ s ^ f
             }
         }
+    }
+    if (found) {
+        SearchDoneSfx()
+    } else {
+        SearchFailedSfx()
     }
 }, search_type_delay));
 
@@ -338,6 +380,20 @@ const PostData = (id, other_inputs) => {
 const CancelMenu = () => {
     $.post(`https://${GetParentResourceName()}/cancel`)
 }
+
+
+const SFX = () => {
+    $.post(`https://${GetParentResourceName()}/mouse:move:sfx`)
+}
+
+const SFX_Search_Done = () => {
+    $.post(`https://${GetParentResourceName()}/mouse:search_found:sfx`)
+}
+
+const SFX_Search_Failed = () => {
+    $.post(`https://${GetParentResourceName()}/mouse:search_not_found:sfx`)
+}
+
 
 window.addEventListener("message", (evt) => {
     const data = evt.data

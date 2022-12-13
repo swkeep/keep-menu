@@ -355,7 +355,6 @@ if DevMode then
                     currency = true
                 }
             },
-
             {
                 header = 'Icon Test',
                 icon = 'fa-solid fa-users-between-lines',
@@ -366,7 +365,7 @@ if DevMode then
             },
         }
 
-        for i = 1, 10, 1 do
+        for i = 1, 100, 1 do
             menu[#menu + 1] = {
                 header = 'search for (' .. math.random(0, 1000) .. ')',
                 subheader = 'reset & close creator',
@@ -397,3 +396,18 @@ if DevMode then
         print(args)
     end)
 end
+
+RegisterNUICallback("mouse:move:sfx", function(data, cb)
+    PlaySoundFrontend(-1, 'Continue_Appears', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
+    cb("ok")
+end)
+
+RegisterNUICallback("mouse:search_found:sfx", function(data, cb)
+    PlaySoundFrontend(-1, 'Hack_Success', 'DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS', 1)
+    cb("ok")
+end)
+
+RegisterNUICallback("mouse:search_not_found:sfx", function(data, cb)
+    PlaySoundFrontend(-1, 'Hack_Failed', 'DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS', 1)
+    cb("ok")
+end)
