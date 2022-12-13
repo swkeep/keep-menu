@@ -1,7 +1,7 @@
 const search_fade_animation = 400
 const search_type_delay = 550
 const ms = 50;
-const SFX_ACTIVE = false
+const SFX_ACTIVE = true
 
 let Buttons = [];
 let Button = [];
