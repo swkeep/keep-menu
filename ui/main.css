@@ -288,6 +288,10 @@ input#searchDisabled {
     cursor: none,
 }
 
+.buttonDisabled .imageHover {
+    display: none;
+}
+
 .context {
     color: rgb(232, 229, 229);
     flex-direction: column;
