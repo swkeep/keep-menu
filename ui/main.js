@@ -26,6 +26,19 @@ function MouseEnter(disabled, element) {
     });
 }
 
+function ShiftkeyAndMouseWheel(i, data) {
+    $(`#range${i}`).bind('mousewheel', function (e) {
+        if (!e.shiftKey) return
+        let el = document.getElementById(`range${i}`)
+        if (e.originalEvent.wheelDelta > 0) {
+            el.value = parseInt(el.value) + parseInt(el.step);
+        } else {
+            el.value = parseInt(el.value) - parseInt(el.step);
+        }
+        Slider_Output(i, data[i].range.multiplier, data[i].range.currency)
+    })
+}
+
 function SearchDoneSfx() {
     if (SFX_ACTIVE == false) return;
     SFX_Search_Done()
@@ -200,8 +213,10 @@ function range_slider(data, i) {
             </div>
             `
     );
+
     MouseEnter(data[i].disabled, element)
     $('#buttons').append(element);
+    ShiftkeyAndMouseWheel(i, data)
     Buttons[i] = element
     Button[i] = data[i]
 }
@@ -284,7 +299,7 @@ function make_buttons(data, i) {
     Button[i] = data[i]
 }
 $('#container').on('input', '#search', delay(function () {
-    let searchText = this.value;
+    let searchText = element.value;
     let found = false
     if (searchText == "") {
         for (let i = 1; i < Buttons.length; i++) {
