@@ -314,6 +314,11 @@ if DevMode then
                 icon = 'fa-solid fa-trash',
             },
             {
+                header = 'More information on hover',
+                icon = 'fa-solid fa-person-through-window',
+                hover_information = 'Line 1 </br> Line 2 </br> Line 3'
+            },
+            {
                 header = 'Hover Url',
                 icon = 'fa-solid fa-person-through-window',
                 image = 'https://avatars.githubusercontent.com/u/49286776?v=4'

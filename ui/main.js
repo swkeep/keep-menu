@@ -1,6 +1,6 @@
 const search_fade_animation = 400
 const search_type_delay = 550
-const ms = 50;
+const ms = 25;
 const SFX_ACTIVE = true
 
 let Buttons = [];
@@ -184,17 +184,18 @@ function range_slider(data, i) {
                 <div class="context" id=${i}>${data[i].subheader}</div>
                 
                 <input type="range"
+                    id='range${i}'
                     name="${data[i].name}",
                     class="range_slider", 
                     min="${data[i].range.min ? data[i].range.min : 0}" 
                     max="${data[i].range.max ? data[i].range.max : 0}" 
                     step="${data[i].range.step ? data[i].range.step : 0}" 
                     value="${data[i].range.value ? data[i].range.value : data[i].range.min}" 
-                    oninput="Slider_Output(this, this.nextElementSibling, ${data[i].range.multiplier}, ${data[i].range.currency})"
+                    oninput="Slider_Output(${i}, ${data[i].range.multiplier}, ${data[i].range.currency})"
                     style="${data[i].style}"
                     ${data[i].disabled ? "disabled" : ""}
                 />
-                <output></output>
+                <output id='label${i}'></output>
                 </div>
             </div>
             `
@@ -205,21 +206,25 @@ function range_slider(data, i) {
     Button[i] = data[i]
 }
 
-function Slider_Output(range, output, multiplier, currency) {
-    $(range).data('updated', new Date().getTime());
+function Slider_Output(index, multiplier, currency) {
+    $('#range' + index).data('updated', new Date().getTime());
     setTimeout(() => {
-        if (new Date().getTime() - ms >= $(range).data('updated')) {
+        if (new Date().getTime() - ms >= $('#range' + index).data('updated')) {
+            let inp2 = 'label' + index
+            let range = 'range' + index
+            let i2 = document.getElementById(inp2)
+            let e_range = document.getElementById(range)
             if (currency) {
                 if (multiplier) {
-                    output.innerHTML = formatter.format(range.value * multiplier);
+                    i2.innerHTML = 'Quantity: ' + e_range.value + ' | Price: ' + formatter.format(e_range.value * multiplier);
                 } else {
-                    output.innerHTML = formatter.format(range.value);
+                    i2.innerHTML = formatter.format(e_range.value);
                 }
             } else {
                 if (multiplier) {
-                    output.innerHTML = range.value * multiplier;
+                    i2.innerHTML = e_range.value * multiplier;
                 } else {
-                    output.innerHTML = range.value;
+                    i2.innerHTML = e_range.value;
                 }
             }
         }
@@ -254,7 +259,7 @@ function _search(Button, i, type, searchText) {
 function make_buttons(data, i) {
     // @swkeep: changed context to subheader as i always do :)
     let element = $(`
-                <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
+                <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""} ${data[i].dark ? "dark" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <!-- @swkeep: added back/leave/icon -->
                 ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
                 ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
@@ -269,6 +274,7 @@ function make_buttons(data, i) {
                         ${data[i].submenu && !data[i].disabled ? `<svg class="submenuicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>` : ""}
                     </div>
                 ${data[i].image ? `<img class="imageHover" src="${data[i].image}"/>` : ""}
+                ${data[i].hover_information ? `<div class="hover_information">${data[i].hover_information}</div>` : ""}
                 </div>
                 `
     );

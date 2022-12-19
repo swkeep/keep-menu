@@ -95,6 +95,33 @@ body::-webkit-scrollbar {
     transition: opacity ease-in-out 250ms;
 }
 
+.button .hover_information {
+    position: fixed;
+    top: 22vh;
+    right: 80vh;
+    transition: opacity ease-in-out 250ms;
+    max-width: 45vh;
+    opacity: 0;
+    pointer-events: none;
+    background: #292f36;
+    border-radius: 0.3rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+}
+
+.button .hover_information {
+    padding: 0.75rem 0.5rem;
+    color: white;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    overflow: hidden;
+    font-weight: 300;
+}
+
+.button:hover .hover_information {
+    opacity: 1;
+    transition: opacity ease-in-out 250ms;
+}
+
 .pin-container {
     width: auto;
     min-width: var(--min-width-btn);
@@ -351,6 +378,7 @@ input#searchDisabled {
     justify-content: center;
     font-size: var(--icon-size);
     min-width: 2.15rem;
+    margin-right: 0.3rem;
 }
 
 .back {
@@ -402,7 +430,6 @@ input#searchDisabled {
 
 .column {
     width: 100%;
-    margin-left: 0.3rem;
 }
 
 .row:nth-child(2) {
@@ -555,4 +582,16 @@ input[type="range"]::-webkit-slider-runnable-track {
     padding-left: 1rem;
     padding-right: 1rem;
     margin-top: 0.3rem;
+}
+
+.dark .column .header {
+    color: #000000 !important;
+}
+
+.dark .column .context {
+    color: #000000 !important;
+}
+
+.dark>* {
+    color: #000000 !important;
 }
