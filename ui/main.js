@@ -298,8 +298,9 @@ function make_buttons(data, i) {
     Buttons[i] = element
     Button[i] = data[i]
 }
+
 $('#container').on('input', '#search', delay(function () {
-    let searchText = element.value;
+    let searchText = this.value;
     let found = false
     if (searchText == "") {
         for (let i = 1; i < Buttons.length; i++) {
