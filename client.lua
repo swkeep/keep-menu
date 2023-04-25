@@ -14,7 +14,10 @@ RegisterNUICallback("dataPost", function(data, cb)
     local id = tonumber(data.id) + 1 or nil
     -- @swkeep: added PlaySoundFrontend to play menu sfx
     PlaySoundFrontend(-1, 'Highlight_Cancel', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
-    if not ActiveMenu then CloseMenu() return end
+    if not ActiveMenu then
+        CloseMenu()
+        return
+    end
     local rData = ActiveMenu[id]
     if rData then
         if Promise ~= nil then
@@ -64,7 +67,6 @@ RegisterNUICallback("dataPost", function(data, cb)
                 else
                     TriggerEvent(rData.event, rData.args)
                 end
-
             elseif rData.client then
                 if rData.unpack then
                     TriggerEvent(rData.event, table.unpack(rData.args or {}))
@@ -101,17 +103,18 @@ RegisterNUICallback("cancel", function(data, cb)
     cb("ok")
 end)
 
-CreateMenu = function(data)
+CreateMenu = function(data, rtl)
     ActiveMenu = ProcessParams(data)
 
     SendNUIMessage({
         action = "OPEN_MENU",
-        data = data
+        data = data,
+        rtl = rtl or false
     })
     SetNuiFocus(true, true)
 end
 
-ContextMenu = function(data)
+ContextMenu = function(data, rtl)
     Wait(1)
     if not data or Promise ~= nil then return end
     if ActiveMenu then
@@ -123,7 +126,7 @@ ContextMenu = function(data)
 
     Promise = promise.new()
 
-    CreateMenu(data)
+    CreateMenu(data, rtl)
     return table.unpack(Citizen.Await(Promise) or {})
 end
 
@@ -392,7 +395,6 @@ if DevMode then
     end, false)
 
     CreateThread(function()
-
         Wait(500)
         landing()
     end)

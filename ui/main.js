@@ -56,8 +56,14 @@ const formatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 0,
 });
 
-const OpenMenu = (data) => {
-    DrawButtons(data)
+const OpenMenu = (data, rtl) => {
+    if (rtl) {
+        $('#container').attr('data-direction', 'rtl');
+    } else {
+        $('#container').attr('data-direction', 'ltr');
+    }
+
+    DrawButtons(data, rtl)
 }
 
 const CreateOverlay = (data) => {
@@ -178,7 +184,7 @@ function btn_leave(data, i) {
     let element = $(`
             <div class="leave" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <div class="icon" id=${i}> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>
-                <div class="header" id=${i}>Leave</div>
+                <div class="header" id=${i}>${data[i].header || 'Leave'}</div>
             </div>`
     );
     MouseEnter(data[i].disabled, element)
@@ -271,12 +277,12 @@ function _search(Button, i, type, searchText) {
     return (_string.indexOf(searchText) != -1)
 }
 
-function make_buttons(data, i) {
+function make_buttons(data, i, rtl) {
     // @swkeep: changed context to subheader as i always do :)
     let element = $(`
                 <div class="${data[i].disabled ? "buttonDisabled" : "button"} ${data[i].is_header ? "is-header" : ""} ${data[i].spacer ? "is-spacer" : ""} ${data[i].dark ? "dark" : ""}" id=${i} ${data[i].style ? `style="${data[i].style}"` : ""}>
                 <!-- @swkeep: added back/leave/icon -->
-                ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="fa-solid fa-angle-left" id=${i}></i> </div>` : ""}
+                ${data[i].back && !data[i].disabled ? `<div class="icon" id=${i}> <i class="${rtl ? 'fa-solid fa-angle-right' : 'fa-solid fa-angle-left'}" id=${i}></i> </div>` : ""}
                 ${data[i].leave && !data[i].disabled && !data[i].back ? `<div class="icon"> <i class="fa-solid fa-circle-xmark" id=${i}></i> </div>` : ""}
                 ${data[i].icon ? `<div class="icon" id=${i}> <i class="${data[i].icon}" id=${i}></i> </div>` : ""}
     
@@ -342,7 +348,7 @@ $('#container').on('input', '#search', delay(function () {
     }
 }, search_type_delay));
 
-const DrawButtons = (data) => {
+const DrawButtons = (data, rtl) => {
     for (let i = 0; i < data.length; i++) {
         if (data[i].hide) {
             // hide element
@@ -362,7 +368,7 @@ const DrawButtons = (data) => {
         } else if (data[i].range_slider) {
             range_slider(data, i)
         } else {
-            make_buttons(data, i)
+            make_buttons(data, i, rtl)
         }
     }
 };
@@ -421,10 +427,11 @@ const SFX_Search_Failed = () => {
 window.addEventListener("message", (evt) => {
     const data = evt.data
     const info = data.data
+    const rtl = data.rtl
     const action = data.action
     switch (action) {
         case "OPEN_MENU":
-            return OpenMenu(info);
+            return OpenMenu(info, rtl);
         case "OPEN_OVERLAY":
             return CreateOverlay(info);
         case 'CLOSE_OVERLAY':

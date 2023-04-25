@@ -10,14 +10,12 @@
     --max-width-btn: 50%;
     --min-width-btn: 16.5rem;
     --btn-padding: 0.45rem 0.3rem;
-
     --icon-size: 1.2rem;
 }
 
 * {
     padding: 0;
     margin: 0;
-    font-family: 'Roboto', sans-serif;
 }
 
 #container {
@@ -27,6 +25,26 @@
     right: 15%;
     border-radius: 5px;
     background: transparent !important;
+}
+
+#container[data-direction='rtl'] {
+    direction: rtl;
+}
+
+#container[data-direction='ltr'] .pin-container .header,
+#container[data-direction='ltr'] .column .header,
+#container[data-direction='ltr'] .column .context,
+#container[data-direction='ltr'] .column .footer {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+#container[data-direction='rtl'] .pin-container .header,
+#container[data-direction='rtl'] .column .header,
+#container[data-direction='rtl'] .column .context,
+#container[data-direction='rtl'] .column .footer {
+    font-family: system-ui, Arial, Helvetica, sans-serif;
+    justify-content: right;
+    text-align: justify;
 }
 
 #buttons {
@@ -111,7 +129,6 @@ body::-webkit-scrollbar {
 .button .hover_information {
     padding: 0.75rem 0.5rem;
     color: white;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 0.9rem;
     overflow: hidden;
     font-weight: 300;
@@ -322,7 +339,6 @@ input#searchDisabled {
 .context {
     color: rgb(232, 229, 229);
     flex-direction: column;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 0.8rem;
     overflow: hidden;
     font-weight: 300;
@@ -331,7 +347,6 @@ input#searchDisabled {
 .footer {
     color: rgb(232, 229, 229);
     flex-direction: column;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 0.8rem;
     overflow: hidden;
     font-weight: 300;
@@ -346,7 +361,6 @@ input#searchDisabled {
     justify-content: left;
     overflow: wrap;
     color: rgb(232, 229, 229);
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 0.95rem;
     overflow: hidden;
     font-weight: 500;
